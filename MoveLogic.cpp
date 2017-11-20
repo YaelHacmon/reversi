@@ -20,7 +20,7 @@ bool MoveLogic::canPlayTurn(const Player* player) const {
 }
 
 
-bool isMoveAllowed(const Location& move, const Player* player) const {
+bool MoveLogic::isMoveAllowed(const Location& move, const Player* player) const {
 	//copy vector by reference to avoid recalling getter function
 	vector<Location> possibleMoves = player->getPossibleMoves();
 

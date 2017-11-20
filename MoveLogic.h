@@ -84,7 +84,8 @@ class MoveLogic {
 		 * @param location of cell
 		 * @param board pointer to board on which move is to be played
 		 */
-		virtual bool isPossibleMoveByLogic(Player::ColorOfPlayer color, Location& location, const Board* board) const = 0;
+		virtual bool isPossibleMoveByLogic(const Player::ColorOfPlayer color, const Location& location,
+				const Board* board) const = 0;
 
 
 		/**

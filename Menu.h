@@ -6,7 +6,7 @@
 #ifndef MENU_H_
 #define MENU_H_
 
-#include "View.h"
+#include "ViewGame.h"
 #include "Player.h"
 #include "MoveLogic.h"
 #include <vector>
