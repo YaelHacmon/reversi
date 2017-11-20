@@ -120,7 +120,7 @@ void StandardMoveLogic::possibleMoveDirections(Location* dirs, const Player::Col
 	Location ranges[8] = {Location(0,0), Location(0, dirs[0].column()), Location (0, size), Location (dirs[0].row(), size),
 			Location (size, size), Location (size, dirs[0].column()), Location (size, 0), Location (dirs[0].row(), 0)};
 
-	//save move
+	//save original move - in case all dirctions change
 	Location move = dirs[0];
 
 	//for each direction range in ranges
@@ -128,7 +128,6 @@ void StandardMoveLogic::possibleMoveDirections(Location* dirs, const Player::Col
 		//if move is not this edge of board - get last color in that direction
 		if (move != ranges[i]) {
 			//get last square in range with the opposite color than move's
-			Location loc(lastInColorRange(pColor, move, ranges[i], board));
 			dirs[i] = lastInColorRange(pColor, move, ranges[i], board);
 		}
 	}

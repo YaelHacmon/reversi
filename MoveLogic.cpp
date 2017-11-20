@@ -42,7 +42,8 @@ void MoveLogic::updateMoveOptions(Player* player, const Board* board) const {
 	std::vector<Location> final;
 	Board::ElementInBoard color = player->getColor();
 
-	//go over board, for each square check if it can be a move. if so - add to vector.
+	//go over board, for each empty square check if it can be a move.
+	//if so - add to vector.
 	for(list<Location>::const_iterator iter = board->emptyCellsBegin();
 			iter != board->emptyCellsEnd(); ++iter) {
 		//use pure virtual method to decide if a move is possible by decided logic (template pattern)
@@ -59,7 +60,7 @@ void MoveLogic::updateMoveOptions(Player* player, const Board* board) const {
 
 Location MoveLogic::lastInColorRange(const Player::ColorOfPlayer pColor, const Location& prevStart,
 		const Location& end, const Board* board) const {
-	/* TARGET: Location of the first square in the given board that matches the given color (not including prevStart).
+	/* TARGET: Location of the first square in the given board that does not match the given color (not including prevStart).
 	 * If none are found - the location of prevStart.
 	 * Implementation traverses board by given range, while the location is still in color range.
 	 * Requirements for staying in color range:
