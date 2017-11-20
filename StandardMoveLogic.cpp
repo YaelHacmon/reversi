@@ -17,7 +17,7 @@ void StandardMoveLogic::playMove(const Location& move, const Player* player, Boa
 	Location dirs[8] = {move, move, move, move, move, move, move, move};
 
 	//get location of last square to flip in move in all directions
-	possibleMoveDirections(dirs, player, board);
+	possibleMoveDirections(dirs, player->getColor(), board);
 
 
 	//in case move is at edge of board
@@ -72,7 +72,7 @@ bool StandardMoveLogic::isMoveAllowed(const Location& move, const Player* player
 	Location dirs[8] = {move, move, move, move, move, move, move, move};
 
 	//get locations of last squares to flip in move in all directions
-	possibleMoveDirections(dirs, player, board);
+	possibleMoveDirections(dirs, player->getColor(), board);
 
 	//if at least one direction is not the original move - there is a possible switch of colors
 	for (int i = 0; i<8; i++) {
@@ -86,7 +86,25 @@ bool StandardMoveLogic::isMoveAllowed(const Location& move, const Player* player
 }
 
 
-void StandardMoveLogic::possibleMoveDirections(Location* dirs, const Player* player, const Board* board) const {
+bool StandardMoveLogic::isPossibleMoveByLogic(Player::ColorOfPlayer color, Location& location, const Board* board) const {
+	//initialize an array of 8 locations with the given move
+	Location dirs[8] = {location, location, location, location, location, location, location, location};
+
+	//get location of last square to flip in move in all directions
+	possibleMoveDirections(dirs, color, board);
+
+	//check that at least one direction is different than original move
+	for (int i = 0; i<8; i++) {
+		if (dirs[i] != location) {
+			return true;
+		}
+	}
+	//otherwise - no directions to move to
+	return false;
+}
+
+
+void StandardMoveLogic::possibleMoveDirections(Location* dirs, const Player::ColorOfPlayer pColor, const Board* board) const {
 	/* IDEA:
 	 * Checks all directions of possible consecutive opposite colored sequence of squares relative to the given location,
 	 * and saves location of last square in opposite-colored range.
@@ -110,8 +128,8 @@ void StandardMoveLogic::possibleMoveDirections(Location* dirs, const Player* pla
 		//if move is not this edge of board - get last color in that direction
 		if (move != ranges[i]) {
 			//get last square in range with the opposite color than move's
-			Location loc(lastInColorRange(player->getColor(), move, ranges[i], board));
-			dirs[i] = lastInColorRange(player->getColor(), move, ranges[i], board);
+			Location loc(lastInColorRange(pColor, move, ranges[i], board));
+			dirs[i] = lastInColorRange(pColor, move, ranges[i], board);
 		}
 	}
 }

@@ -93,10 +93,10 @@ class MoveLogic {
 		 * Depends on the set of rules applied, so must be implemented only in derived classes.
 		 *
 		 * @param dirs array of 8 locations, initialized to checked move option location
-		 * @param player pointer to player making the move
+		 * @param pColor color of player making the move
 		 * @param board pointer to board on which move is to be played
 		 */
-		virtual void possibleMoveDirections(Location* dirs, const Player* player, const Board* board) const = 0;
+		virtual void possibleMoveDirections(Location* dirs, const Player::ColorOfPlayer pColor, const Board* board) const = 0;
 
 		/**
 		 * Returns the location of the last square in a range of consecutive same-colored squares.

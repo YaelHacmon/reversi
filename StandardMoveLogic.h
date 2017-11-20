@@ -44,6 +44,16 @@ class StandardMoveLogic: public MoveLogic {
 
 	protected:
 		/**
+		 * Checks if a given location can be a possible move by this logic's rules.
+		 * Is pure virual because depends on the specific implemetation of MoveLogic.
+		 *
+		 * @param color to make given cell location
+		 * @param location of cell
+		 * @param board pointer to board on which move is to be played
+		 */
+		virtual bool isPossibleMoveByLogic(Player::ColorOfPlayer color, Location& location, const Board* board) const = 0;
+
+		/**
 		 * Checks if given move is an option for given player to make on the given board,
 		 * and if so - saves location of last square in opposite-colored range to the passed Locations array.
 		 *
@@ -52,10 +62,10 @@ class StandardMoveLogic: public MoveLogic {
 		 * color as move's.
 		 *
 		 * @param dirs array of 8 locations, initialized to checked move option location
-		 * @param player pointer to player making the move
+		 * @param pColor color of to player making the move
 		 * @param board pointer to board on which move is to be played
 		 */
-		virtual void possibleMoveDirections(Location* dirs, const Player* player, const Board* board) const;
+		virtual void possibleMoveDirections(Location* dirs, const Player::ColorOfPlayer pColor, const Board* board) const;
 };
 
 
