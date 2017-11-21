@@ -50,7 +50,7 @@ public:
 	 * @param other opponent
 	 * @return location of next player's move
 	 */
-	virtual Location getNextMove(const ViewGame* view, const MoveLogic* logic, const Board* board, const Player* other) = 0;
+	virtual Location getNextMove(const ViewGame* view, const MoveLogic* logic, const Board& board, const Player* other) = 0;
 
 	/**
 	 * Returns the color representing this player in the game.
@@ -105,12 +105,6 @@ public:
 	 * @param toIncrease number of points to increase.
 	 */
 	void increaseScore (int toIncrease);
-
-	/**
-	 * Returns player's color as string.
-	 * @return string representing color of player
-	 */
-	std::string strColor() const;
 
 protected:
 	// name of player, cannot be changed during game
