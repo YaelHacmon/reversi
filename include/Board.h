@@ -14,12 +14,14 @@
  * Represents a Reversi game board.
  * By default board dimentions are 8*8, and game initialization is at center.
  *
- * A board is made of squares, and is only responsible for the organization of the squares as a matrix.
  * It can show that matrix graphically and keeps track of the squares' locations.
- * It does not need to know a square's color and is not responsible for maintaining changes in the square.
+ * It does not need to know a square's color and is not responsible for
+ * maintaining changes in the square.
  * This allows for loose coupling and high cohesion.
  */
 class Board {
+
+
 	public:
 		/**
 		 * Enum for square/cell color, where black = 'X'. white = 'O'
@@ -39,10 +41,16 @@ class Board {
 		~Board();
 
 		/**
+		 * copy- constructor
+		 */
+		Board::Board(Board& other);
+
+		/**
 		 * Getter for size of board, which equals to number of columns and to number of rows
 		 * @return  size of board
 		 */
 		int size() const;
+
 
 		ElementInBoard** getBoard()const;
 

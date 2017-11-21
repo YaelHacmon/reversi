@@ -27,7 +27,9 @@ public:
 	 * @param other opponent
 	 * @return location of next player's move
 	 */
-	Location getNextMove(const ViewGame* view, const MoveLogic* logic, const Board* board, const Player* other);
+	Location getNextMove(const ViewGame* view, const MoveLogic* logic, const Board* board,const Player* current,const Player* other);
+
+	Player* clone() const;
 };
 
 
