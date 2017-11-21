@@ -12,7 +12,7 @@
 using namespace std;
 
 
-Location HumanPlayer::getNextMove(const ViewGame* view, const MoveLogic* logic, const Board* board, const Player* other)
+Location HumanPlayer::getNextMove(const ViewGame* view, const MoveLogic* logic, const Board& board, const Player* other)
 {
 	//sk for move
 	view->showMessage("Please enter your moves row,col:");

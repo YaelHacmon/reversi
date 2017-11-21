@@ -38,5 +38,13 @@ public:
 
 	//gets move from outside user of game
 	virtual Location getMoveFromUser() const;
+
+	/**
+	 * Shows the options in the vector by option's index, and returns user's choice.
+	 *
+	 * Index 0 should be menu's title, and other indexes should hold the matching message for the option.
+	 * Messages should fit the format: "To MESSAGE, press INDEX"
+	 */
+	virtual int presentMenu(const vector<string>& menuOpps) const;
 };
 #endif /* VIEWBYCONSOLE_H_ */

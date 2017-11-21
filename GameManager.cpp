@@ -33,7 +33,7 @@ void GameManager::playGame() {
 		view_->messageForTurn(currPlayer_->getName());
 
 		//initialize moves for black and white players
-		logic_->updateMoveOptions(currPlayer_, board_);
+		logic_->updateMoveOptions(currPlayer_, *board_);
 
 		//if current player can play his turn
 		if (logic_->canPlayTurn(currPlayer_)) {
@@ -52,7 +52,7 @@ void GameManager::playGame() {
 			}
 
 			//call logic to play move
-			logic_->playMove(move, currPlayer_, board_);
+			logic_->playMove(move, currPlayer_, *board_, oppPlayer_);
 
 			//message of last turn
 			view_->messagePlayerMove(move, currPlayer_->getName());

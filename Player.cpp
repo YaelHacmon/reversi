@@ -56,13 +56,3 @@ void Player::decreaseScore (int toDecrease) {
 void Player::increaseScore (int toIncrease) {
 	score_ = score_ + toIncrease;
 }
-
-
-std::string Player::strColor() const
-{
-	if (color_ == Board::BLACK)
-	{
-		return "X";
-	}
-	return "O";
-}

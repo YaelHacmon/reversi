@@ -7,9 +7,9 @@
 #include <vector>
 
 
-void StandardMoveLogic::playMove(const Location& move, const Player* player, Board* board) const {
+void StandardMoveLogic::playMove(const Location& move, Player* player, Player* opponent, Board& board) const {
 	//if move is illegal - do nothing
-	if (!isMoveAllowed(move, player, board)) {
+	if (!isMoveAllowed(move, player)) {
 		return;
 	}
 
@@ -21,7 +21,7 @@ void StandardMoveLogic::playMove(const Location& move, const Player* player, Boa
 
 
 	//in case move is at edge of board
-	if (board->isEdge(move)) {
+	if (board.isEdge(move)) {
 		//making sure a direction does not appear twice - to avoid flipping twice at edge case
 		//when move=edge, there are two overlapping directions (corner and edge withrow/column of move), so flipping is done twice
 		for (int i=0; i<8; i++) {
@@ -36,57 +36,43 @@ void StandardMoveLogic::playMove(const Location& move, const Player* player, Boa
 	}
 
 
-	//go over directions and change colors in board
+	//go over directions and change colors in board + update players' scores
 	for (int i = 0; i<8; i++) {
 		//get jumps from move to end of range
 		int rowJumps = jumps(move.row(), dirs[i].row());
 		int colJumps = jumps(move.column(), dirs[i].column());
 
 		//change color
-		board->flipColorInRange(move, dirs[i], rowJumps, colJumps);
+		board.flipColorInRange(move, dirs[i], rowJumps, colJumps);
+
+		//update scores
+		//if the change has been in rows - use rows to update the scores
+		if (rowJumps != 0) {
+			//calculate difference (absolute value of move's row minus end of range's row)
+			int diff = abs(move.row()-dirs[i].row());
+			//increase difference from opponent and add to playing player
+			player->increaseScore(diff);
+			opponent->decreaseScore(diff);
+
+		//otherwise, if the change has been in columns - use columns to update the scores
+		} else if (colJumps != 0) {
+			//calculate difference (absolute value of move's row minus end of range's row)
+			int diff = abs(move.column()-dirs[i].column());
+			//increase difference from opponent and add to playing player
+			player->increaseScore(diff);
+			opponent->decreaseScore(diff);
+		}
+		//otherwise - there has been no change in the scores in this direction - do nothing
 	}
 
 	//make original move
-	board->makeInColor(player->getColor(), move);
+	board.makeInColor(player->getColor(), move);
+	//add 1 to player's score
+	player->increaseScore(1);
 }
 
 
-bool StandardMoveLogic::isMoveAllowed(const Location& move, const Player* player, const Board* board) const {
-	/*RULES: a move is allowed if:
-	1. location is in range of board
-	2. location is empty
-	3. location can be an option for a move (code shared by this function) */
-
-	//check that location is in board range, if not - return false
-	if (!board->isInBoardRange(move)) {
-		return false;
-	}
-
-	//check that square is empty before checking for possible directions for move - if not - return false
-	if (!board->isCellEmpty(move)) {
-		return false;
-	}
-
-	//check if this is an option for a move:
-	//initialize an array of 8 locations with the given move
-	Location dirs[8] = {move, move, move, move, move, move, move, move};
-
-	//get locations of last squares to flip in move in all directions
-	possibleMoveDirections(dirs, player->getColor(), board);
-
-	//if at least one direction is not the original move - there is a possible switch of colors
-	for (int i = 0; i<8; i++) {
-		if (dirs[i] != move) {
-			return true;
-		}
-	}
-
-	//otherwise all in all directions move is the last square before matching square color - no way to move
-	return false;
-}
-
-
-bool StandardMoveLogic::isPossibleMoveByLogic(Player::ColorOfPlayer color, Location& location, const Board* board) const {
+bool StandardMoveLogic::isPossibleMoveByLogic(const Player::ColorOfPlayer color, const Location& location, const Board& board) const {
 	//initialize an array of 8 locations with the given move
 	Location dirs[8] = {location, location, location, location, location, location, location, location};
 
@@ -104,7 +90,7 @@ bool StandardMoveLogic::isPossibleMoveByLogic(Player::ColorOfPlayer color, Locat
 }
 
 
-void StandardMoveLogic::possibleMoveDirections(Location* dirs, const Player::ColorOfPlayer pColor, const Board* board) const {
+void StandardMoveLogic::possibleMoveDirections(Location* dirs, const Player::ColorOfPlayer pColor, const Board& board) const {
 	/* IDEA:
 	 * Checks all directions of possible consecutive opposite colored sequence of squares relative to the given location,
 	 * and saves location of last square in opposite-colored range.
@@ -113,7 +99,7 @@ void StandardMoveLogic::possibleMoveDirections(Location* dirs, const Player::Col
 	 * 2. the consecutive sequence of opposite colored neighboring squares ends with a same-colored square. */
 
 	//get size of board indexed to c++ indexing
-	int size = board->size()-1;
+	int size = board.size()-1;
 
 	//initialize an array of 8 locations with the wanted directions of ranges - diagonally  ("towards board corners" - method
 	//knows to do that even when the move is not located in the center) and straight (to board edges)
