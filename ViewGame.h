@@ -10,12 +10,13 @@
 
 using namespace std;
 
-// this cladd represent the view of the game. all the type of the function
-// are pure virtual.
-
+/**
+ * Represents the view of the game, handles any interaction with the player.
+ * All functions are pure virtual, seeing as implementation depends on viewing tools (console, GUI, etc.)
+ */
 class ViewGame {
 	public:
-
+		//virtual c'tor and d'tor (must have - includes virtual methods)
 		ViewGame() {}
 		virtual ~ViewGame() {}
 
