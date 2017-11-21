@@ -36,16 +36,15 @@ bool MoveLogic::isMoveAllowed(const Location& move, const Player* player) const 
 }
 
 
-void MoveLogic::updateMoveOptions(Player* player, const Board* board) const {
+void MoveLogic::updateMoveOptions(Player* player, const Board& board) const {
 	//get board size and initialize variables
-	int size = board->size();
+	int size = board.size();
 	std::vector<Location> final;
 	Board::ElementInBoard color = player->getColor();
 
-	//go over board, for each empty square check if it can be a move.
-	//if so - add to vector.
-	for(list<Location>::const_iterator iter = board->emptyCellsBegin();
-			iter != board->emptyCellsEnd(); ++iter) {
+	//go over board, for each square check if it can be a move. if so - add to vector.
+	for(list<Location>::const_iterator iter = board.emptyCellsBegin();
+			iter != board.emptyCellsEnd(); ++iter) {
 		//use pure virtual method to decide if a move is possible by decided logic (template pattern)
 		if (isPossibleMoveByLogic(color, *iter, board))
 		{
@@ -59,8 +58,8 @@ void MoveLogic::updateMoveOptions(Player* player, const Board* board) const {
 
 
 Location MoveLogic::lastInColorRange(const Player::ColorOfPlayer pColor, const Location& prevStart,
-		const Location& end, const Board* board) const {
-	/* TARGET: Location of the first square in the given board that does not match the given color (not including prevStart).
+		const Location& end, const Board& board) const {
+	/* TARGET: Location of the first square in the given board that matches the given color (not including prevStart).
 	 * If none are found - the location of prevStart.
 	 * Implementation traverses board by given range, while the location is still in color range.
 	 * Requirements for staying in color range:
@@ -68,7 +67,7 @@ Location MoveLogic::lastInColorRange(const Player::ColorOfPlayer pColor, const L
 	 * 2. Location has the opposite color to given prevStart square. */
 
 	//make sure both prevStart and end are in range of board - if not return prevStart
-	if (!board->isInBoardRange(prevStart) || !board->isInBoardRange(end)) {
+	if (!board.isInBoardRange(prevStart) || !board.isInBoardRange(end)) {
 		return prevStart;
 	}
 
@@ -86,12 +85,12 @@ Location MoveLogic::lastInColorRange(const Player::ColorOfPlayer pColor, const L
 	curr.increment(rowJumps, colJumps);
 
 	//while current location is still in board range, is not empty, and has the opposite color than prevStart
-	while (board->isInBoardRange(curr) && (!board->isCellEmpty(curr) && !board->compareCellColors(pColor, curr))) {
+	while (board.isInBoardRange(curr) && (!board.isCellEmpty(curr) && !board.compareCellColors(pColor, curr))) {
 		curr.increment(rowJumps, colJumps);
 	}
 
 	//if the last square is out of board range, or empty - there is no square matching given color
-	if (!board->isInBoardRange(curr) || board->isCellEmpty(curr)) {
+	if (!board.isInBoardRange(curr) || board.isCellEmpty(curr)) {
 		//return prevStart as required
 		return prevStart;
 	}

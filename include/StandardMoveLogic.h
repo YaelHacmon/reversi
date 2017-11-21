@@ -24,23 +24,10 @@ class StandardMoveLogic: public MoveLogic {
 		 *
 		 * @param move location of chosen move
 		 * @param player pointer to player playing move
+		 * @param opponent pointer to other player of game
 		 * @param board pointer to board on which move is played
 		 */
-		virtual void playMove(const Location& move, const Player* player, Board* board) const;
-
-
-		/**
-		 * Returns if a given move by a given player on given board is allowed.
-		 * Derived from parent class, originally a pure virtual method.
-		 *
-		 * A move is allowed if it causes at least one other square to change color.
-		 *
-		 * @param move location of move to check if legal
-		 * @param player pointer to player playing this move
-		 * @param board pointer to  board on which move is played
-		 * @return true if move is legal and can be played
-		 */
-		virtual bool isMoveAllowed(const Location& move, const Player* player, const Board* board) const;
+		virtual void playMove(const Location& move, Player* player, Player* opponent, Board& board) const;
 
 	protected:
 		/**
@@ -51,7 +38,7 @@ class StandardMoveLogic: public MoveLogic {
 		 * @param location of cell
 		 * @param board pointer to board on which move is to be played
 		 */
-		virtual bool isPossibleMoveByLogic(Player::ColorOfPlayer color, Location& location, const Board* board) const = 0;
+		virtual bool isPossibleMoveByLogic(const Player::ColorOfPlayer color, const Location& location, const Board& board) const;
 
 		/**
 		 * Checks if given move is an option for given player to make on the given board,
@@ -65,7 +52,7 @@ class StandardMoveLogic: public MoveLogic {
 		 * @param pColor color of to player making the move
 		 * @param board pointer to board on which move is to be played
 		 */
-		virtual void possibleMoveDirections(Location* dirs, const Player::ColorOfPlayer pColor, const Board* board) const;
+		virtual void possibleMoveDirections(Location* dirs, const Player::ColorOfPlayer pColor, const Board& board) const;
 };
 
 

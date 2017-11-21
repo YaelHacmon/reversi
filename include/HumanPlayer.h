@@ -19,7 +19,7 @@ public:
 
 
 	/**
-	 * Returns player's next move in game by asking user to enter their choice.
+	 * Returns human player's next move in game, by asking user to enter their choice.
 	 *
 	 * @param v view to interact with player - accept input and make sure input is valid
 	 * @param logic rules of current game
@@ -27,9 +27,9 @@ public:
 	 * @param other opponent
 	 * @return location of next player's move
 	 */
-	Location getNextMove(const ViewGame* view, const MoveLogic* logic, const Board* board,const Player* current,const Player* other);
 
 	Player* clone() const;
+	virtual Location getNextMove(const ViewGame* view, const MoveLogic* logic, const Board& board, const Player* other);
 };
 
 

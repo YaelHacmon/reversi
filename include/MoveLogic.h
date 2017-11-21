@@ -37,10 +37,11 @@ class MoveLogic {
 		 * pure virtual method, to be implemented in derived classes.
 		 *
 		 * @param move location of chosen move
-		 * @param player pointer tp player playing move
+		 * @param player pointer to player playing move
+		 * @param opponent pointer to other player of game
 		 * @param board pointer to board on which move is played
 		 */
-		virtual void playMove(const Location& move, const Player* player, Board* board) const = 0;
+		virtual void playMove(const Location& move, Player* player, Board& board, Player* opponent) const = 0;
 
 		/**
 		 * Checks if given player can currently play a turn.
@@ -73,7 +74,7 @@ class MoveLogic {
 		 * @param player pointer to player of which to update moves
 		 * @param board pointer to board on which game is played
 		 */
-		virtual void updateMoveOptions(Player* player, const Board* board) const;
+		virtual void updateMoveOptions(Player* player, const Board& board) const;
 
 	protected:
 		/**
@@ -85,7 +86,7 @@ class MoveLogic {
 		 * @param board pointer to board on which move is to be played
 		 */
 		virtual bool isPossibleMoveByLogic(const Player::ColorOfPlayer color, const Location& location,
-				const Board* board) const = 0;
+				const Board& board) const = 0;
 
 
 		/**
@@ -97,7 +98,7 @@ class MoveLogic {
 		 * @param pColor color of player making the move
 		 * @param board pointer to board on which move is to be played
 		 */
-		virtual void possibleMoveDirections(Location* dirs, const Player::ColorOfPlayer pColor, const Board* board) const = 0;
+		virtual void possibleMoveDirections(Location* dirs, const Player::ColorOfPlayer pColor, const Board& board) const = 0;
 
 		/**
 		 * Returns the location of the last square in a range of consecutive same-colored squares.
@@ -116,7 +117,7 @@ class MoveLogic {
 		 * 				 square's color, or if none are found - the location of prevStart.
 		 */
 		Location lastInColorRange(const Player::ColorOfPlayer pColor, const Location& prevStart,
-				const Location& end, const Board* board) const;
+				const Location& end, const Board& board) const;
 
 
 		/**
