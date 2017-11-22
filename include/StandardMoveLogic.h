@@ -32,7 +32,7 @@ class StandardMoveLogic: public MoveLogic {
 	protected:
 		/**
 		 * Checks if a given location can be a possible move by this logic's rules.
-		 * Is pure virual because depends on the specific implemetation of MoveLogic.
+		 * Is pure virtual because depends on the specific implementation of MoveLogic.
 		 *
 		 * @param color to make given cell location
 		 * @param location of cell

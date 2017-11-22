@@ -13,6 +13,12 @@ Player::Player(const std::string& name, const ColorOfPlayer& c): name_(name), co
 //empty destructor
 Player::~Player() {}
 
+Player::Player(Player& other)
+{
+	name_ = other.name_;
+	color_ = other.color_;
+	score_ = other.score_;
+}
 
 Player::ColorOfPlayer Player::getColor() const {
 	return color_;

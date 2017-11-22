@@ -1,5 +1,6 @@
 /*
  * Roni Fultheim, ID: 313465965
+ * Yael Hacmon, ID: 313297897
  * HumanPlayer.cpp
  */
 
@@ -14,9 +15,14 @@ using namespace std;
 
 Location HumanPlayer::getNextMove(const ViewGame* view, const MoveLogic* logic, const Board& board, const Player* other)
 {
-	//sk for move
+	//ask for move
 	view->showMessage("Please enter your moves row,col:");
 
-	//reurn choice of move
+	//return choice of move
 	return view->getMoveFromUser();
 }
+
+Player* HumanPlayer::clone() const{
+	return new HumanPlayer(*this);
+}
+

@@ -50,6 +50,15 @@ public:
 	 * @param other opponent
 	 * @return location of next player's move
 	 */
+
+	/**
+	 * implement clone function for making copy of Player object
+	 * of any type. use clone because Player have derived classes.
+	 */
+	virtual Player* clone() const = 0;
+
+	Player (Player& other);
+
 	virtual Location getNextMove(const ViewGame* view, const MoveLogic* logic, const Board& board, const Player* other) = 0;
 
 	/**

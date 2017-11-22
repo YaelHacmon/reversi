@@ -41,14 +41,14 @@ void GameManager::playGame() {
 			view_->messagePossibleMoves(currPlayer_->getPossibleMoves());
 
 			//get next player's move
-			Location move = currPlayer_->getNextMove(view_, logic_, board_, oppPlayer_);
+			Location move = currPlayer_->getNextMove(view_, logic_, board_,currPlayer_,oppPlayer_);
 
 			//check that move is allowed
 			//while move isn't legal - get another move from player
 			while (!logic_->isMoveAllowed(move, currPlayer_))
 			{
 				view_->showMessage("Illegal move, try again.");
-				move = currPlayer_->getNextMove(view_, logic_, board_, oppPlayer_);
+				move = currPlayer_->getNextMove(view_, logic_, board_,currPlayer_,oppPlayer_);
 			}
 
 			//call logic to play move
