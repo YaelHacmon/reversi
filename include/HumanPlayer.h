@@ -27,11 +27,9 @@ public:
 	 * @param other opponent
 	 * @return location of next player's move
 	 */
-<<<<<<< HEAD:HumanPlayer.h
-=======
 
 	Player* clone() const;
->>>>>>> fd6b14ebd0d526c01ce2aeb602c553e896ed279d:include/HumanPlayer.h
+
 	virtual Location getNextMove(const ViewGame* view, const MoveLogic* logic, const Board& board, const Player* other);
 };
 

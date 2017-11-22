@@ -18,7 +18,7 @@ Player* ComputerPlayer::clone() const
 }
 
 //according to minimax algorithm
-Location ComputerPlayer::getNextMove(const ViewGame* view, const MoveLogic* logic, const Board* board,const Player* current ,const Player* other)
+Location ComputerPlayer::getNextMove(const ViewGame* view, const MoveLogic* logic, const Board& board, const Player* other)
 {
 
 	int minimax = numeric_limits<int>::infinity();
@@ -29,7 +29,7 @@ Location ComputerPlayer::getNextMove(const ViewGame* view, const MoveLogic* logi
 
 	Player* copyOther = other->clone();
 
-	vector<Location> possiblCurrenteMoves = current->getPossibleMoves();
+	vector<Location> possiblCurrenteMoves = this->getPossibleMoves();
 	vector<Location> possiblOtherMoves = copyOther->getPossibleMoves();
 
 	// if the opp player have no possible moves,
@@ -57,7 +57,7 @@ Location ComputerPlayer::getNextMove(const ViewGame* view, const MoveLogic* logi
 				//play the possible move
 				logic-> playMove(possiblOtherMoves[i],copyOther,secondCopyBoard);
 
-				int diff = current->getScore() - copyOther ->getScore();
+				int diff = this->getScore() - copyOther->getScore();
 				if (diff > maxScore)
 					maxScore = diff;
 

@@ -7,7 +7,7 @@
 /**
  * Represents a computer player in a game.
  */
-class ComputerPlayer
+class ComputerPlayer: public Player
 {
 public:
 
@@ -26,7 +26,7 @@ public:
 	 *
 	 * @return location of next player's move
 	 */
-	Location getNextMove(const ViewGame* view, const MoveLogic* logic, const Board* board,const Player* current ,const Player* other);
+	Location getNextMove(const ViewGame* view, const MoveLogic* logic, const Board& board, const Player* other);
 
 	Player* clone() const;
 };
