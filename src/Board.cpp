@@ -89,10 +89,6 @@ Board::Board(Board& other)
 	}
 }
 
-Board::Board* clone() const{
-	return new Board(*this);
-}
-
 Board::ElementInBoard**Board::getBoard()const
 {
 	return gameBoard_;
