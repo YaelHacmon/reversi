@@ -20,21 +20,19 @@ using namespace std;
 
 int main() {
 
-/*	// initialize game
-	cout << "Welcome to Reversi!" << endl;*/
-
-	// allocate on stack
-	// currently there is only one type of logic
-	// no need to allocate dynamically
+	// allocate menu on stack
 	Menu menuReversi;
 
+<<<<<<< HEAD
+=======
+	// allocate logic and view on stack - currently there is only one type of logic and view, no need to allocate dynamically
+>>>>>>> df317c036cd06ce269df8573170cf06780a94d63
 	ViewByConsole view;
-
 	StandardMoveLogic ml;
 
 	Board board;
 
-	// the first black player is always the human player
+	// first player is always the human player and is black
 	Player* player1 = new HumanPlayer("X",Board::BLACK);
 
 	//start game - opening message
