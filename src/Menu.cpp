@@ -1,10 +1,14 @@
+
+Player* ComputerPlayer::clone() const
+{
+	return new ComputerPlayer(*this);
+}
 /*
  * Yael Hacmon, ID 313597897
  * Roni Fultheim, ID 313465965
  */
 
 #include "Menu.h"
-#include "ComputerPlayer.h"
 
 using namespace std;
 
@@ -36,6 +40,4 @@ Player& Menu::getPlayerByUserChoice(ViewGame& view) {
 			break;
 	}
 
-	//must have some form of return
-	return new HumanPlayer("O", Player::ColorOfPlayer::WHITE);
 }

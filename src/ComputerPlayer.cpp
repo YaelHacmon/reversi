@@ -38,6 +38,7 @@ Location ComputerPlayer::getNextMove(const ViewGame* view, const MoveLogic* logi
 	//otherwise - execute algorithm
 	//for each of the computer player possible move - check what is the highest possible score for opponent
 	for(int m =0; m < possiblCurrenteMoves.size; ++m){
+
 		//copy all participating objects - to work on copies (leave originals untouched)
 		Board copyBoard(board);
 		Player* copyOther = other->clone();
@@ -51,6 +52,7 @@ Location ComputerPlayer::getNextMove(const ViewGame* view, const MoveLogic* logi
 
 		//for each of the possible moves of the other player - check what is the possible score of move
 		for(int i = 0; i < possiblOtherMoves.size; ++i){
+
 			//copy all participating objects - to work on copies (leave originals copies as changed in first loop)
 			Board secondCopyBoard(board);
 			Player* secondCopyOther = copyOther->clone();
@@ -61,6 +63,7 @@ Location ComputerPlayer::getNextMove(const ViewGame* view, const MoveLogic* logi
 
 			//get change in scores
 			int diff = secondCopyThis->getScore() - secondCopyOther->getScore();
+
 			//if we found a new best move for opponent - save score
 			if (diff > maxScore)
 				maxScore = diff;

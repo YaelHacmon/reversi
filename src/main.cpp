@@ -28,7 +28,6 @@ int main() {
 	// no need to allocate dynamically
 	Menu menuReversi;
 
-	//TODO RONI - fix "abs" in MoveLogic::playMove - added stdlib as include
 	ViewByConsole view;
 
 	StandardMoveLogic ml;
