@@ -8,7 +8,7 @@
 #include <vector>
 
 
-void StandardMoveLogic::playMove(const Location& move, Player* player, Player* opponent, Board& board) const {
+void StandardMoveLogic::playMove(const Location& move, Player* player, Board& board, Player* opponent) const {
 	//if move is illegal - do nothing
 	if (!isMoveAllowed(move, player)) {
 		return;

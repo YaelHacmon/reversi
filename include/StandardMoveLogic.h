@@ -24,10 +24,10 @@ class StandardMoveLogic: public MoveLogic {
 		 *
 		 * @param move location of chosen move
 		 * @param player pointer to player playing move
-		 * @param opponent pointer to other player of game
 		 * @param board pointer to board on which move is played
+		 * @param opponent pointer to other player of game
 		 */
-		virtual void playMove(const Location& move, Player* player, Player* opponent, Board& board) const;
+		virtual void playMove(const Location& move, Player* player, Board& board, Player* opponent) const;
 
 	protected:
 		/**
