@@ -26,6 +26,7 @@ int main() {
 
 	// allocate logic and view on stack - currently there is only one type of logic and view, no need to allocate dynamically
 	StandardMoveLogic ml;
+	ViewByConsole view;
 
 	Board board;
 
