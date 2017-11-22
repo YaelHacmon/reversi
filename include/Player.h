@@ -33,11 +33,15 @@ public:
 	Player(const std::string& name, const ColorOfPlayer& c);
 
 	/**
+	 * Copy c'tor
+	 * @param player to copy
+	 */
+	Player(const Player& other);
+
+	/**
 	 * Virtual destructor.
 	 */
 	virtual ~Player();
-
-	Player (Player& other);
 
 	/**
 	 * implement clone function for making copy of Player object

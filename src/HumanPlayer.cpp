@@ -12,7 +12,6 @@
 
 using namespace std;
 
-
 Location HumanPlayer::getNextMove(const ViewGame* view, const MoveLogic* logic, const Board& board, const Player* other)
 {
 	//ask for move
@@ -22,7 +21,7 @@ Location HumanPlayer::getNextMove(const ViewGame* view, const MoveLogic* logic, 
 	return view->getMoveFromUser();
 }
 
-Player* HumanPlayer::clone() const{
+Player* HumanPlayer::clone() const
+{
 	return new HumanPlayer(*this);
 }
-

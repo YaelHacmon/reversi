@@ -53,7 +53,7 @@ void ViewByConsole::messageForTurn(string curPlayer) const
 	cout<<curPlayer<<": It's your move"<< endl;
 }
 
-void ViewByConsole::messagePossibleMoves(vector<Location> &possibleMoves) const
+void ViewByConsole::messagePossibleMoves(const vector<Location> &possibleMoves) const
 {
 	int possibleMovesSize = possibleMoves.size();
 	cout<<"Your possible moves: ";

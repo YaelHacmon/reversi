@@ -8,12 +8,12 @@
 #include <iostream>
 #include "GameManager.h"
 #include "Player.h"
+#include "Board.h"
+#include "Menu.h"
 #include "ViewByConsole.h"
 #include "HumanPlayer.h"
 #include "StandardMoveLogic.h"
-#include "Board.h"
 #include <string>
-#include <Menu.h>
 
 using namespace std;
 

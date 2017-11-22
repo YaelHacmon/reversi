@@ -10,10 +10,19 @@
 class ComputerPlayer: public Player
 {
 public:
-
+	/**
+	 * Constructor of ComputerPlayer. Name and color must be given.
+	 *
+	 * @param name player's name
+	 * @param c player's color
+	 */
 	ComputerPlayer(const std::string& name, const Player::ColorOfPlayer& c): Player(name, c){};
 
-	ComputerPlayer(ComputerPlayer& other);
+	/**
+	 * Copy c'tor. Calls base's copy c'tor
+	 * @param player to copy
+	 */
+	ComputerPlayer(const Player& other): Player(other){};
 
 	/**
 	 * Returns player's next move in game by minimax algorithem

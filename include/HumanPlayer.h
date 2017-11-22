@@ -14,9 +14,25 @@
  */
 class HumanPlayer: public Player {
 public:
-
+	/**
+	 * Constructor of HumanPlayer. Name and color must be given.
+	 *
+	 * @param name player's name
+	 * @param c player's color
+	 */
 	HumanPlayer(const std::string& name, const Player::ColorOfPlayer& c): Player(name, c){};
 
+	/**
+	 * Copy c'tor. Calls base's copy c'tor
+	 * @param player to copy
+	 */
+	HumanPlayer(const Player& other): Player(other){};
+
+	/**
+	 * implement clone function for making copy of Player object
+	 * of any type. use clone because Player have derived classes.
+	 */
+	virtual Player* clone() const;
 
 	/**
 	 * Returns human player's next move in game, by asking user to enter their choice.
@@ -27,9 +43,6 @@ public:
 	 * @param other opponent
 	 * @return location of next player's move
 	 */
-
-	Player* clone() const;
-
 	virtual Location getNextMove(const ViewGame* view, const MoveLogic* logic, const Board& board, const Player* other);
 };
 

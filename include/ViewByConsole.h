@@ -22,7 +22,7 @@ public:
 	virtual void messageForTurn (string curPlayer) const;
 
 	// message of possible moves
-	virtual void messagePossibleMoves(vector<Location> &possibleMoves) const;
+	virtual void messagePossibleMoves(const vector<Location> &possibleMoves) const;
 
 	// display the player's last move
 	virtual void messagePlayerMove(Location pointToDisplay, string curPlayer) const;

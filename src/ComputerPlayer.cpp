@@ -11,12 +11,6 @@
 
 using namespace std;
 
-
-Player* ComputerPlayer::clone() const
-{
-	return new ComputerPlayer(*this);
-}
-
 //according to minimax algorithm
 Location ComputerPlayer::getNextMove(const ViewGame* view, const MoveLogic* logic, const Board& board, const Player* other)
 {
@@ -80,4 +74,10 @@ Location ComputerPlayer::getNextMove(const ViewGame* view, const MoveLogic* logi
 
 	//return best move
 	return bestMove;
+}
+
+
+Player* ComputerPlayer::clone() const
+{
+	return new ComputerPlayer(*this);
 }
