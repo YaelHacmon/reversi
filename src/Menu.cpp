@@ -4,6 +4,7 @@
  */
 
 #include "Menu.h"
+#include "ComputerPlayer.h"
 
 using namespace std;
 
@@ -35,4 +36,6 @@ Player& Menu::getPlayerByUserChoice(ViewGame& view) {
 			break;
 	}
 
+	//must have some form of return
+	return new HumanPlayer("O", Player::ColorOfPlayer::WHITE);
 }

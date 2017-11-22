@@ -29,6 +29,7 @@ public:
 	 */
 
 	Player* clone() const;
+
 	virtual Location getNextMove(const ViewGame* view, const MoveLogic* logic, const Board& board, const Player* other);
 };
 
