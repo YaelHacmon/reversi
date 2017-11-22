@@ -27,49 +27,54 @@ Location ComputerPlayer::getNextMove(const ViewGame* view, const MoveLogic* logi
 
 	Location bestMove(-1,-1);
 
-	Player* copyOther = other->clone();
-
 	vector<Location> possiblCurrenteMoves = this->getPossibleMoves();
-	vector<Location> possiblOtherMoves = copyOther->getPossibleMoves();
+	vector<Location> possiblOtherMoves = other->getPossibleMoves();
 
-	// if the opp player have no possible moves,
-	//it will return the first possible move.
+	// if the opp player have no possible moves, it will return the first possible move.
 	if(possiblOtherMoves.size() == 0){
 		return  possiblCurrenteMoves[0];
 	}
 
-	else {
-		//for each of the computer player possible move
-		for(int m =0; m < possiblCurrenteMoves.size; ++m){
-			Board copyBoard(board);
+	//otherwise - execute algorithm
+	//for each of the computer player possible move - check what is the highest possible score for opponent
+	for(int m =0; m < possiblCurrenteMoves.size; ++m){
+		//copy all participating objects - to work on copies (leave originals untouched)
+		Board copyBoard(board);
+		Player* copyOther = other->clone();
+		Player* copyThis = this->clone();
 
-			//play move for the current player
-			logic-> playMove(possiblCurrenteMoves[m],current,copyBoard,copyOther);
+		//play move for the current player
+		logic-> playMove(possiblCurrenteMoves[m],this,copyBoard,copyOther);
 
-			//update the possible moves for the opponent player
-			logic-> updateMoveOptions(copyOther,copyBoard);
+		//update the possible moves for the opponent player
+		logic-> updateMoveOptions(copyOther,copyBoard);
 
+		//for each of the possible moves of the other player - check what is the possible score of move
+		for(int i = 0; i < possiblOtherMoves.size; ++i){
+			//copy all participating objects - to work on copies (leave originals copies as changed in first loop)
+			Board secondCopyBoard(board);
+			Player* secondCopyOther = copyOther->clone();
+			Player* secondCopyThis = copyThis->clone();
 
-			for(int i = 0; i < possiblOtherMoves.size; ++i){
+			//play the possible move for opponent, current player is now the "other player"
+			logic-> playMove(possiblOtherMoves[i],secondCopyOther,secondCopyBoard, secondCopyThis);
 
-				Board secondCopyBoard(copyBoard);
-
-				//play the possible move
-				logic-> playMove(possiblOtherMoves[i],copyOther,secondCopyBoard);
-
-				int diff = this->getScore() - copyOther->getScore();
-				if (diff > maxScore)
-					maxScore = diff;
-
-			}
-
-			if(maxScore < minimax){
-				minimax = maxScore;
-				bestMove = possiblCurrenteMoves[m];
-			}
-
+			//get change in scores
+			int diff = secondCopyThis->getScore() - secondCopyOther->getScore();
+			//if we found a new best move for opponent - save score
+			if (diff > maxScore)
+				maxScore = diff;
 
 		}
+
+		//if best move opponent can play is worse then found best move for opponent -
+		//current move is our best choice - save it
+		if(maxScore < minimax){
+			minimax = maxScore;
+			bestMove = possiblCurrenteMoves[m];
+		}
 	}
+
+	//return best move
 	return bestMove;
 }

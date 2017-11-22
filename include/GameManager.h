@@ -30,7 +30,7 @@ public:
 	 * @param white white player
 	 * @param log logic to handle moves
 	 */
-	GameManager(ViewGame* view, Board* b, Player* black, Player* white, MoveLogic* log);
+	GameManager(ViewGame* view, Board& b, Player* black, Player* white, MoveLogic* log);
 
 	/**
 	 * Plays game with the given board, players and logic.
@@ -39,7 +39,7 @@ public:
 
 private:
 	//board of game
-	Board* board_;
+	Board board_;
 
 	//current player - by reference, to allow polymorphism. Starting player is black by default.
 	Player* currPlayer_;
