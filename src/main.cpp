@@ -22,9 +22,9 @@ int main() {
 
 	// allocate menu on stack
 	Menu menuReversi;
-	// allocate logic and view on stack - currently there is only one type of logic and view, no need to allocate dynamically
 
-	ViewByConsole view;
+
+	// allocate logic and view on stack - currently there is only one type of logic and view, no need to allocate dynamically
 	StandardMoveLogic ml;
 
 	Board board;
