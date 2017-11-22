@@ -38,7 +38,7 @@ class ViewGame {
 		//show any type of message
 		virtual void showMessage(string stringToShow) const = 0;
 
-		//shows switcing turns message and waits for any key press
+		//shows switching turns message and waits for any key press
 		virtual void messageSwitchTurns() const = 0;
 
 		//gets move from outside user of game
