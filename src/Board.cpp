@@ -60,28 +60,28 @@ Board::~Board() {
 	delete gameBoard_;
 }
 
-Board::Board(Board& other)
+Board::Board(Board& other): size_(other.size())
 {
 	try {
-		gameBoard_ = new ElementInBoard*[other.size_];
+		gameBoard_ = new ElementInBoard*[size_];
 	} catch (...) {
 		cout << "Allocation of board failed: EXITING GAME" << endl;
 		exit(0);
 	}
 
-	for (int i = 0 ; i<other.size_; i++) {
+	for (int i = 0 ; i<size_; i++) {
 
 		// allocate rows
 		// wrapped in try-catch block as expected
 		try {
-			gameBoard_[i] = new ElementInBoard[other.size_];
+			gameBoard_[i] = new ElementInBoard[size_];
 		} catch (...) {
 			cout << "Allocation of board failed: EXITING GAME" << endl;
 			exit(0);
 		}
 
 		// copy the other Board's cell value in the new board
-		for (int j = 0 ; j< other.size_; j++) {
+		for (int j = 0 ; j< size_; j++) {
 			gameBoard_[i][j] = other.gameBoard_[i][j];
 			emptyCells_ = other.emptyCells_;
 
