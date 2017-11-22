@@ -28,7 +28,7 @@ Player& Menu::getPlayerByUserChoice(ViewGame& view) {
 			return new HumanPlayer("O", Player::ColorOfPlayer::WHITE);
 
 		case 1:
-			return new AIPlayer("O", Player::ColorOfPlayer::WHITE);
+			return new ComputerPlayer("O", Player::ColorOfPlayer::WHITE);
 
 		default:
 			view.showMessage("Problem creating players");

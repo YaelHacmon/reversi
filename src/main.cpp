@@ -17,24 +17,30 @@ using namespace std;
 
 int main() {
 
-	//initialize game
+	// initialize game
 	cout << "Welcome to Reversi!" << endl;
-	menu menuReversi;
 
-	//the first black player is always the human player
-	Player* player1 = new HumanPlayer("X",Board::BLACK);
+	// allocate on stack
+	// currently there is only one type of logic
+	// no need to allocate dynamically
+	Menu menuReversi;
 
-	//getting white player by user's choice
-	player* player2 = menuReversi.getPlayerByUser(view);
-
-	//allocate on stack
-	//currently there is only one type of logic - no need to allocate dynamically
+	//RONI - fix "abs" in MoveLogic::playMove
 	StandardMoveLogic ml;
+
 	ViewByConsole view;
 	Board board;
+
+	// the first black player is always the human player
+	Player* player1 = new HumanPlayer("X",Board::BLACK);
+
+	// getting white player by user's choice
+	Player* player2 = menuReversi.getPlayerByUserChoice(view);
+
+
 	GameManager game_manger(&view,&board,player1, player2, &ml);
 
-	//play game
+	// play game
 	game_manger.playGame();
 
 	//release memory

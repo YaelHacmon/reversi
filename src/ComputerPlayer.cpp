@@ -11,6 +11,12 @@
 
 using namespace std;
 
+
+Player* ComputerPlayer::clone() const
+{
+	return new ComputerPlayer(*this);
+}
+
 //according to minimax algorithm
 Location ComputerPlayer::getNextMove(const ViewGame* view, const MoveLogic* logic, const Board* board,const Player* current ,const Player* other)
 {
@@ -38,22 +44,18 @@ Location ComputerPlayer::getNextMove(const ViewGame* view, const MoveLogic* logi
 			Board copyBoard(board);
 
 			//play move for the current player
-			logic-> playMove(possiblCurrenteMoves[m],current,copyBoard);
+			logic-> playMove(possiblCurrenteMoves[m],current,copyBoard,copyOther);
 
 			//update the possible moves for the opponent player
-			logic-> uptadeMoveOptions(copyOther,copyBoard);
+			logic-> updateMoveOptions(copyOther,copyBoard);
 
 
 			for(int i = 0; i < possiblOtherMoves.size; ++i){
 
-				//if this is the first iteration-init minimaw to be max score
-				if(m == 0){
-				}
-
-				copyBoard_ = secondCopyBoard_;
+				Board secondCopyBoard(copyBoard);
 
 				//play the possible move
-				logic-> playMove(possiblOtherMoves[i],copyOther,secondCopyBoard_);
+				logic-> playMove(possiblOtherMoves[i],copyOther,secondCopyBoard);
 
 				int diff = current->getScore() - copyOther ->getScore();
 				if (diff > maxScore)
@@ -61,23 +63,13 @@ Location ComputerPlayer::getNextMove(const ViewGame* view, const MoveLogic* logi
 
 			}
 
-		if(maxScore < minimax){
-		minimax = maxScore;
-		bestMove = possiblCurrenteMoves[m];
-		}
+			if(maxScore < minimax){
+				minimax = maxScore;
+				bestMove = possiblCurrenteMoves[m];
+			}
 
 
 		}
 	}
 	return bestMove;
 }
-
-
-Player* ComputerPlayer::clone() const
-{
-	return new ComputerPlayer(*this);
-}
-
-
-
-
