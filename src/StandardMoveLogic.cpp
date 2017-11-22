@@ -4,6 +4,7 @@
  */
 
 #include  "StandardMoveLogic.h"
+#include <stdlib> //for abs
 #include <vector>
 
 
