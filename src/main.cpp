@@ -20,17 +20,14 @@ using namespace std;
 
 int main() {
 
-	// allocate menu on stack
+	//allocate menu, board, logic and view on stack - currently there is only one type of logic and view, no need to allocate dynamically
 	Menu menuReversi;
-
-
-	// allocate logic and view on stack - currently there is only one type of logic and view, no need to allocate dynamically
+	Board board;
 	StandardMoveLogic ml;
 	ViewByConsole view;
 
-	Board board;
-
-	// first player is always the human player and is black
+	//allocate dynamically due to using abstract base type
+	//first player is always the human player and is black
 	Player* player1 = new HumanPlayer("X",Board::BLACK);
 
 	//start game - opening message
@@ -39,7 +36,8 @@ int main() {
 	//getting white player by user's choice from player options menu
 	Player* player2 = menuReversi.getPlayerByUserChoice(view);
 
-	GameManager game_manger(&view, &board, player1, player2, &ml);
+	//allocate game manager on stack, sending abstract types by pointer and actual types by reference
+	GameManager game_manger(&view, board, player1, player2, &ml);
 
 	// play game
 	game_manger.playGame();

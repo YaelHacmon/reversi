@@ -93,11 +93,17 @@ Location ViewByConsole::getMoveFromUser() const
 	return Location(row-1,col-1);
 }
 
+
+void ViewByConsole::messageWinner(string winPlayer) const
+{
+	cout << winPlayer << " has won the game!" << endl;
+}
+
+
 void ViewByConsole::showMessage(string stringToShow) const
 {
 	cout<<stringToShow<<endl;
 }
-
 
 
 void ViewByConsole::messagePlayerMove(Location pointToDisplay, string curPlayer)const

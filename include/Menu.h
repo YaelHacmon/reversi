@@ -8,7 +8,6 @@
 
 #include "ViewGame.h"
 #include "Player.h"
-#include "MoveLogic.h"
 #include <vector>
 
 /**
@@ -30,7 +29,7 @@ class Menu {
 		 * @param view to show menu options with
 		 * @return a type of Player
 		 */
-		Player& getPlayerByUserChoice(ViewGame& view);
+		Player* getPlayerByUserChoice(ViewGame& view);
 
 	private:
 		//vector to hold messages of options at index of choice. Using a vector for easy access to length along with easy iteration.

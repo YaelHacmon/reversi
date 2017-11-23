@@ -43,7 +43,7 @@ class Board {
 		/**
 		 * copy- constructor
 		 */
-		Board(Board& other);
+		Board(const Board& other);
 
 		/**
 		 * Getter for size of board, which equals to number of columns and to number of rows

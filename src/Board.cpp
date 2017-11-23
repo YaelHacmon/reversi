@@ -60,7 +60,7 @@ Board::~Board() {
 	delete gameBoard_;
 }
 
-Board::Board(Board& other): size_(other.size())
+Board::Board(const Board& other): size_(other.size())
 {
 	try {
 		gameBoard_ = new ElementInBoard*[size_];
