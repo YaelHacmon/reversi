@@ -54,16 +54,6 @@ private:
 	ViewGame* view_;
 
 	/**
-	 * Plays turn of a given player. Method for clarity and code reuse.
-	 * Is not constant, since playing a turn can cause either player's to change.
-	 *
-	 * @param playing player currently playing
-	 * @param other other player
-	 * @return true if player has played this turn
-	 */
-	bool playTurn(Player* playing, Player* other);
-
-	/**
 	 * Returns winner of game.
 	 * @return player who won this game
 	 */
