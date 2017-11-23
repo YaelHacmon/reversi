@@ -27,7 +27,8 @@ bool MoveLogic::isMoveAllowed(const Location& move, const Player* player) const 
 	//go over vector
 	for (int i = 0; i< possibleMoves.size(); i++) {
 		//if move's location is equal to a possible move's location - it is allowed
-		if (possibleMoves[i]==move) {
+		if (possibleMoves[i] == move){
+			cout << i;
 			return true;
 		}
 	}

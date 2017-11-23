@@ -25,11 +25,11 @@ Player* Menu::getPlayerByUserChoice(ViewGame& view) {
 
 	//create and return a player type according to user's choice TODO - should return by reference or as pointer?
 	switch(choice) {
-		case 0:
+		case 1:
 			//TODO - should the player by allowed to choose the color of the
 			return new HumanPlayer("O", Board::WHITE);
 
-		case 1:
+		case 2:
 			return new ComputerPlayer("O", Board::WHITE);
 
 		default:

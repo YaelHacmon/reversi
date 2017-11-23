@@ -81,7 +81,7 @@ Location ViewByConsole::getMoveFromUser() const
 	cin >> col;
 
 	// input validation: while the input is not valid - keep asking for valid one
-	while(!cin.fail())
+	while(cin.fail())
 	{
 		showMessage("Invalid move format, please try again! Enter your move row,col: ");
 		cin.clear();
@@ -138,8 +138,9 @@ int ViewByConsole::presentMenu(const vector<string>& menuOpps) const
 
 	// input validation: while the input is not valid- keep asking for valid one
 	//input is not valid if it is either not a number, or is not in range of given options [1-size]
-	while(!cin.fail() || choice<1 || choice > menuOpps.size())
+	while(cin.fail() || choice<1 || choice > menuOpps.size())
 	{
+		cout << "size" << menuOpps.size();
 		showMessage("Choice must be a number from given options, please try again:");
 		cin.clear();
 		cin.ignore();
