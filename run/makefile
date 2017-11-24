@@ -1,10 +1,10 @@
+#create executalbe file by linking the object files
 a.out: Board.o Player.o HumanPlayer.o ComputerPlayer.o Location.o MoveLogic.o StandardMoveLogic.o ViewByConsole.o Menu.o GameManager.o main.o
 	g++ Board.o Player.o HumanPlayer.o ComputerPlayer.o Location.o MoveLogic.o StandardMoveLogic.o ViewByConsole.o Menu.o GameManager.o main.o
 
 #creating all object files from source code
-
 Board.o: Board.cpp Board.h Location.h
-	g++ -c Board.cpp
+	g++ -c Board.cpp 
 
 Player.o: Player.cpp Player.h Location.h
 	g++ -c Player.cpp
