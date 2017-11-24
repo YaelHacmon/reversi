@@ -39,22 +39,8 @@ Location ComputerPlayer::getNextMove(const ViewGame* view, const MoveLogic* logi
 		Player* copyThis = this->clone();
 
 		/*TODO - vectors are cloned as empty (using size)!!
-		 * and yet - loop 2 is entered for the moves (5,6) (6,5) (6,6) in every iteration (which shows something is wrong -
-		 * possible moves should be different when playing (3,3) (3,5) (5,3)).
-		 * TOTAL: my output for running this (vector size of colens are 0!)
-		 * Your possible moves: (3,3),(3,5),(5,3)
-			loop1 for (3,3)
-					loop2 for (5,6)
-					loop2 for (6,5)
-					loop2 for (6,6)
-			loop1 for (3,5)
-					loop2 for (5,6)
-					loop2 for (6,5)
-					loop2 for (6,6)
-			loop1 for (5,3)
-					loop2 for (5,6)
-					loop2 for (6,5)
-					loop2 for (6,6)
+		 * and yet - loop 2 is entered for the moves (5,6) (6,5) (6,6) in every iteration, because of updateMoveOptions() called
+		 * right before loop (moves found are the same - because board has not changed because playGame() did not play).
 		 */
 
 		//play move for the current player
