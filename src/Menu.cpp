@@ -12,9 +12,9 @@ using namespace std;
 
 Menu::Menu() {
 	//initialize messages to user as strings in the player options string vector
-	playerOptions_.push_back("Choose white player's type:");
-	playerOptions_.push_back("play against a human player");
-	playerOptions_.push_back("play against an AI player");
+	playerOptions_.push_back("Choose white player's type:"); //index 0
+	playerOptions_.push_back("play against a human player"); //index 1
+	playerOptions_.push_back("play against an AI player"); //index 2
 }
 
 
@@ -25,11 +25,10 @@ Player* Menu::getPlayerByUserChoice(ViewGame& view) {
 
 	//create and return a player type according to user's choice TODO - should return by reference or as pointer?
 	switch(choice) {
-		case 0:
-			//TODO - should the player by allowed to choose the color of the
+		case 1:
 			return new HumanPlayer("O", Board::WHITE);
 
-		case 1:
+		case 2:
 			return new ComputerPlayer("O", Board::WHITE);
 
 		default:
