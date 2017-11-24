@@ -14,49 +14,73 @@ using namespace std;
 //according to minimax algorithm
 Location ComputerPlayer::getNextMove(const ViewGame* view, const MoveLogic* logic, const Board& board, const Player* other)
 {
+	//initialize minimax value to maximum value possible
+	int minimax = std::numeric_limits<int>::max();
 
-	int minimax = numeric_limits<int>::infinity();
-
-	int maxScore = 0;
-
-	Location bestMove(-1,-1);
-
-	vector<Location> possiblCurrenteMoves = this->getPossibleMoves();
-	vector<Location> possiblOtherMoves = other->getPossibleMoves();
+	//initialize best move to fist possible move - will make sure move returned is legal at any case
+	Location bestMove(this->getPossibleMoves()[0]);
 
 	// if the opp player have no possible moves, it will return the first possible move.
-	if(possiblOtherMoves.size() == 0){
+	//TODO - not sure this is needed, and quite sure it presents a logical problem: consider a situation where other player has no
+	//moves, but making a move will create moving options for opponent
+	/*if(!other->hasPossibleMoves()){
 		return  possiblCurrenteMoves[0];
-	}
+	}*/
 
-	//otherwise - execute algorithm
+	//execute algorithm
 	//for each of the computer player possible move - check what is the highest possible score for opponent
-	for(int m =0; m < possiblCurrenteMoves.size(); ++m){
+	for(vector<Location>::const_iterator compMove = this->getPossibleMoves().begin();
+			compMove != this->getPossibleMoves().end(); ++compMove){
 
+		std::cout << "loop1 for " << *compMove << "\n";
 		//copy all participating objects - to work on copies (leave originals untouched)
 		Board copyBoard(board);
-		Player* copyOther = other->clone();
+		Player* copyOther = other->clone();  //using clones for abstract types (no copy c'tor possible)
 		Player* copyThis = this->clone();
 
+		/*TODO - vectors are cloned as empty (using size)!!
+		 * and yet - loop 2 is entered for the moves (5,6) (6,5) (6,6) in every iteration (which shows something is wrong -
+		 * possible moves should be different when playing (3,3) (3,5) (5,3)).
+		 * TOTAL: my output for running this (vector size of colens are 0!)
+		 * Your possible moves: (3,3),(3,5),(5,3)
+			loop1 for (3,3)
+					loop2 for (5,6)
+					loop2 for (6,5)
+					loop2 for (6,6)
+			loop1 for (3,5)
+					loop2 for (5,6)
+					loop2 for (6,5)
+					loop2 for (6,6)
+			loop1 for (5,3)
+					loop2 for (5,6)
+					loop2 for (6,5)
+					loop2 for (6,6)
+		 */
+
 		//play move for the current player
-		logic-> playMove(possiblCurrenteMoves[m],this,copyBoard,copyOther);
+		logic-> playMove(*compMove, copyThis, copyBoard, copyOther);
 
 		//update the possible moves for the opponent player
-		logic-> updateMoveOptions(copyOther,copyBoard);
+		logic-> updateMoveOptions(copyOther, copyBoard);
+
+		//initialize maximal seen score of a player's move to smallest number possible
+		int maxScore = numeric_limits<int>::min();
 
 		//for each of the possible moves of the other player - check what is the possible score of move
-		for(int i = 0; i < possiblOtherMoves.size(); ++i){
+		for(vector<Location>::const_iterator oppMove = copyOther->getPossibleMoves().begin();
+				oppMove != copyOther->getPossibleMoves().end(); ++oppMove){
+			std::cout << "\tloop2 for " << *oppMove << "\n";
 
 			//copy all participating objects - to work on copies (leave originals copies as changed in first loop)
-			Board secondCopyBoard(board);
+			Board secondCopyBoard(copyBoard);
 			Player* secondCopyOther = copyOther->clone();
 			Player* secondCopyThis = copyThis->clone();
 
 			//play the possible move for opponent, current player is now the "other player"
-			logic-> playMove(possiblOtherMoves[i],secondCopyOther,secondCopyBoard, secondCopyThis);
+			logic-> playMove(*oppMove, secondCopyOther, secondCopyBoard, secondCopyThis);
 
-			//get change in scores
-			int diff = secondCopyThis->getScore() - secondCopyOther->getScore();
+			//get change in scores (opponent's score minus computer's score)
+			int diff = secondCopyOther->getScore() - secondCopyThis->getScore();
 
 			//if we found a new best move for opponent - save score
 			if (diff > maxScore)
@@ -68,7 +92,7 @@ Location ComputerPlayer::getNextMove(const ViewGame* view, const MoveLogic* logi
 		//current move is our best choice - save it
 		if(maxScore < minimax){
 			minimax = maxScore;
-			bestMove = possiblCurrenteMoves[m];
+			bestMove = *compMove;
 		}
 	}
 
