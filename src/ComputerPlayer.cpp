@@ -47,6 +47,12 @@ Location ComputerPlayer::getNextMove(const ViewGame* view, const MoveLogic* logi
 		std::cout << "\tloop1:\n\t\tother possible moves after update: ";
 		view->messagePossibleMoves(copyOther->getPossibleMoves());
 
+		//if opponent has no moves - current move will cause a win - make sure it is returned
+		if (!copyOther->hasPossibleMoves()) {
+			minimax = std::numeric_limits<int>::min();
+			bestMove = *compMove;
+		}
+
 		//initialize maximal seen score of a player's move to smallest number possible
 		int maxScore = numeric_limits<int>::min();
 
