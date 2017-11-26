@@ -34,7 +34,7 @@ class ComputerPlayerTest: public testing::Test {
 		//sets up the tests
 		virtual void SetUp();
 
-		//releases the memory used
+		//releases the memory allocated
 		virtual void TearDown();
 
 	protected:

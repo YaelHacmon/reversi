@@ -17,6 +17,9 @@ ComputerPlayerTest::ComputerPlayerTest(): hp1("X", Board::BLACK), hp2("O",Board:
 		leastWorstMove(-1,-1), winMove(-1,-1), maxMove(-1,-1), tieMove(-1,-1) {}
 
 
+/**
+ * Sets up the test: clones the players and changes them according to cases, and calls methods to set up boards by cases.
+ */
 void ComputerPlayerTest::SetUp() {
 	//CLONE
 	//add location to each player
