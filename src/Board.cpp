@@ -83,8 +83,9 @@ Board::Board(const Board& other): size_(other.size())
 		// copy the other Board's cell value in the new board
 		for (int j = 0 ; j< size_; j++) {
 			gameBoard_[i][j] = other.gameBoard_[i][j];
-			emptyCells_ = other.emptyCells_;
-
+			if (gameBoard_[i][j]==EMPTY) {
+				emptyCells_.push_back(Location(i, j));
+			}
 		}
 	}
 }

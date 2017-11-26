@@ -44,10 +44,13 @@ Location ComputerPlayer::getNextMove(const ViewGame* view, const MoveLogic* logi
 		 */
 
 		//play move for the current player
+		logic-> updateMoveOptions(copyThis, copyBoard); //TODO - should not have to do this
 		logic-> playMove(*compMove, copyThis, copyBoard, copyOther);
+		std::cout << "\tboard after move \n";
+		view->printBoard(copyBoard.getBoard(), 8);
 
 		//update the possible moves for the opponent player
-		logic-> updateMoveOptions(copyOther, copyBoard);
+		logic-> updateMoveOptions(copyOther, copyBoard);   //TODO - should work
 
 		//initialize maximal seen score of a player's move to smallest number possible
 		int maxScore = numeric_limits<int>::min();
@@ -55,23 +58,32 @@ Location ComputerPlayer::getNextMove(const ViewGame* view, const MoveLogic* logi
 		//for each of the possible moves of the other player - check what is the possible score of move
 		for(vector<Location>::const_iterator oppMove = copyOther->getPossibleMoves().begin();
 				oppMove != copyOther->getPossibleMoves().end(); ++oppMove){
-			std::cout << "\tloop2 for " << *oppMove << "\n";
+			std::cout << "\t\tloop2 for " << *oppMove << "\n";
 
 			//copy all participating objects - to work on copies (leave originals copies as changed in first loop)
 			Board secondCopyBoard(copyBoard);
 			Player* secondCopyOther = copyOther->clone();
 			Player* secondCopyThis = copyThis->clone();
 
+			logic-> updateMoveOptions(secondCopyOther, secondCopyBoard); //TODO - should not have to do this
+			std::cout << "\tupdated opponent's options in loop2 ";
+			view->messagePossibleMoves(secondCopyOther->getPossibleMoves());
+			std::cout<< "\n";
 			//play the possible move for opponent, current player is now the "other player"
 			logic-> playMove(*oppMove, secondCopyOther, secondCopyBoard, secondCopyThis);
 
+			std::cout << "\tboard after SECOND move \n";
+			view->printBoard(secondCopyBoard.getBoard(), 8);
+
 			//get change in scores (opponent's score minus computer's score)
 			int diff = secondCopyOther->getScore() - secondCopyThis->getScore();
+			std::cout << "\t\t\tdiff:  " << diff << "\n";
+
 
 			//if we found a new best move for opponent - save score
-			if (diff > maxScore)
+			if (diff > maxScore) {
 				maxScore = diff;
-
+			}
 		}
 
 		//if best move opponent can play is worse then found best move for opponent -

@@ -22,7 +22,7 @@ public:
 	 * Copy c'tor. Calls base's copy c'tor and updates possible moves
 	 * @param player to copy
 	 */
-	ComputerPlayer(const Player& other): Player(other) {updatePossibleMoves(other.getPossibleMoves());};
+	ComputerPlayer(const Player& other): Player(other) {};
 
 	/**
 	 * Returns player's next move in game by minimax algorithem
