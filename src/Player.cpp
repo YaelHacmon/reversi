@@ -9,7 +9,9 @@ Player::Player(const std::string& name, const ColorOfPlayer& c): name_(name), co
 	possibleMoves_ = std::vector<Location>();
 }
 
-Player::Player(const Player& other): name_(other.getName()), color_(other.getColor()), score_(other.getScore()) {};
+Player::Player(const Player& other): name_(other.getName()), color_(other.getColor()), score_(other.getScore()), possibleMoves_(other.getPossibleMoves()) {
+	possibleMoves_ = other.getPossibleMoves();
+};
 
 //empty destructor
 Player::~Player() {}

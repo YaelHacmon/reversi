@@ -42,9 +42,13 @@ void MoveLogic::updateMoveOptions(Player* player, const Board& board) const {
 	std::vector<Location> final;
 	Board::ElementInBoard color = player->getColor();
 
+
+	int s=0;
+
 	//go over board, for each square check if it can be a move. if so - add to vector.
 	for(list<Location>::const_iterator iter = board.emptyCellsBegin();
 			iter != board.emptyCellsEnd(); ++iter) {
+		s++;
 		//use pure virtual method to decide if a move is possible by decided logic (template pattern)
 		if (isPossibleMoveByLogic(color, *iter, board))
 		{

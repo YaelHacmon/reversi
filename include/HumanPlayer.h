@@ -26,7 +26,7 @@ public:
 	 * Copy c'tor. Calls base's copy c'tor and updates possible moves
 	 * @param player to copy
 	 */
-	HumanPlayer(const Player& other): Player(other) {updatePossibleMoves(other.getPossibleMoves());};
+	HumanPlayer(const Player& other): Player(other) {};
 
 	/**
 	 * implement clone function for making copy of Player object
