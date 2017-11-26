@@ -140,7 +140,7 @@ int ViewByConsole::presentMenu(const vector<string>& menuOpps) const
 	//input is not valid if it is either not a number, or is not in range of given options [1-size]
 	while(cin.fail() || choice<1 || choice > menuOpps.size())
 	{
-		cout << "size" << menuOpps.size();
+
 		showMessage("Choice must be a number from given options, please try again:");
 		cin.clear();
 		cin.ignore();

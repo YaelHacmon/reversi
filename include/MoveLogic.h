@@ -92,10 +92,6 @@ class MoveLogic {
 		/**
 		 * Checks if given move is an option for given player to make on the given board in all 8 directions,
 		 * and if so - saves location of last square in opposite-colored range to the passed Locations array.
-		 * Depends on the set of rules applied, so must be implemented only in derived classes.
-		 *
-		 * @param dirs array of 8 locations, initialized to checked move option location
-		 * @param pColor color of player making the move
 		 * @param board pointer to board on which move is to be played
 		 */
 		virtual void possibleMoveDirections(Location* dirs, const Player::ColorOfPlayer pColor, const Board& board) const = 0;

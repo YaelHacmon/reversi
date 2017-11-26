@@ -4,24 +4,23 @@
  */
 
 #include "../include/GameManager.h"
-#include <iostream>
 
 using namespace std;
 
 GameManager::GameManager(ViewGame* view, Board& b, Player* black, Player* white, MoveLogic* log):
-										board_(b), currPlayer_(black), oppPlayer_(white), logic_(log), view_(view) {}
+														board_(b), currPlayer_(black), oppPlayer_(white), logic_(log), view_(view) {}
 
 
 void GameManager::playGame() {
 	//declare flag - in first turn game has not been played, current player has moves
 	bool noMoves = false;
 
-	view_->showMessage("Current board");
+	view_->showMessage("Current board:");
 	view_->printBoard(board_.getBoard(), board_.size());
 
 	/* General explanation - First, build a list containing all the
 	 * empty cells on the board. then, checking what might be a possible
-	 * move dor the player, and putting all the options into a vector.
+	 * move to the player, and putting all the options into a vector.
 	 * The user select a point, and the board update acoording to the
 	 *  selected point.
 	 */
@@ -35,13 +34,16 @@ void GameManager::playGame() {
 		//initialize moves for black and white players
 		logic_->updateMoveOptions(currPlayer_, board_);
 
+		//declare move here - so we can show move later
+		Location move(-1,-1);
+
 		//if current player can play his turn
 		if (logic_->canPlayTurn(currPlayer_)) {
 			//show possible moves
 			view_->messagePossibleMoves(currPlayer_->getPossibleMoves());
 
 			//get next player's move
-			Location move = currPlayer_->getNextMove(view_, logic_, board_,oppPlayer_);
+			move = currPlayer_->getNextMove(view_, logic_, board_,oppPlayer_);
 
 			//check that move is allowed
 			//while move isn't legal - get another move from player
@@ -53,9 +55,6 @@ void GameManager::playGame() {
 
 			//call logic to play move
 			logic_->playMove(move, currPlayer_, board_, oppPlayer_);
-
-			//message of last turn
-			view_->messagePlayerMove(move, currPlayer_->getName());
 
 			//update flag
 			noMoves = false;
@@ -77,14 +76,18 @@ void GameManager::playGame() {
 			}
 		}
 
+		//show board and last moves
+		view_->showMessage("Current board:");
+		view_->printBoard(board_.getBoard(), board_.size());
+		//message of last turn - if was played
+		if (!noMoves) {
+			view_->messagePlayerMove(move, currPlayer_->getName());
+		}
+
 		//switch players
 		Player* temp = currPlayer_;
 		currPlayer_ = oppPlayer_;
 		oppPlayer_ = temp;
-
-		//show board and last moves
-		view_->showMessage("Current board:");
-		view_->printBoard(board_.getBoard(), board_.size());
 	}
 	showWinner();
 }

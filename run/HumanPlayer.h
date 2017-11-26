@@ -23,10 +23,10 @@ public:
 	HumanPlayer(const std::string& name, const Player::ColorOfPlayer& c): Player(name, c){};
 
 	/**
-	 * Copy c'tor. Calls base's copy c'tor
+	 * Copy c'tor. Calls base's copy c'tor and updates possible moves
 	 * @param player to copy
 	 */
-	HumanPlayer(const Player& other): Player(other){};
+	HumanPlayer(const Player& other): Player(other) {updatePossibleMoves(other.getPossibleMoves());};
 
 	/**
 	 * implement clone function for making copy of Player object
