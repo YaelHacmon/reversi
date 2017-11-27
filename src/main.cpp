@@ -4,7 +4,7 @@
  * main.cpp
  * Implementation of main function - runs program
  */
-
+/**
 #include <iostream>
 #include "../include/GameManager.h"
 #include "../include/Player.h"
@@ -18,7 +18,8 @@
 using namespace std;
 
 
-int main() {
+
+
 
 	//allocate menu, board, logic and view on stack - currently there is only one type of logic and view, no need to allocate dynamically
 	Menu menuReversi;
@@ -48,3 +49,4 @@ int main() {
 
 	return 0;
 }
+*/
