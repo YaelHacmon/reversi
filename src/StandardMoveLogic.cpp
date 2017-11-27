@@ -4,7 +4,7 @@
  */
 
 #include  "../include/StandardMoveLogic.h"
-#include <cstdlib> //for abs
+#include <cstdlib>
 #include <vector>
 
 

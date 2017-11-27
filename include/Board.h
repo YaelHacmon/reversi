@@ -100,7 +100,7 @@ class Board {
 		void makeInColor(const ElementInBoard& c, const Location& loc);
 
 		/**
-		 * Changes the color in a given range by given jumps from from black to white and vice versa. TODO -needed?
+		 * Changes the color in a given range by given jumps from from black to white and vice versa.
 		 *
 		 * @param prevStart square before start of range
 		 * @param end square of end of range
@@ -110,7 +110,7 @@ class Board {
 		void flipColorInRange(const Location& prevStart, const Location& end, int rowJumps, int colJumps);
 
 		/**
-		 * Checks if a given loction is a part of board TODO -needed?
+		 * Checks if a given location is a part of board
 		 * @param loc location to check
 		 * @return true if location is in range of board
 		 */
@@ -118,7 +118,7 @@ class Board {
 
 
 		/**
-		 * Checks if location is at edge of board. TODO -needed?
+		 * Checks if location is at edge of board.
 		 * @param loc loaction to check
 		 * @return true is location is an edge
 		 */
