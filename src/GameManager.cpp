@@ -15,7 +15,7 @@ void GameManager::playGame() {
 	//declare flag - in first turn game has not been played, current player has moves
 	bool noMoves = false;
 
-	view_->showMessage("\nCurrent board:");
+	view_->showMessage("Current board:");
 	view_->printBoard(board_.getBoard(), board_.size());
 
 	/* General explanation - First, build a list containing all the
@@ -77,7 +77,7 @@ void GameManager::playGame() {
 		}
 
 		//show board and last moves
-		view_->showMessage("Current board:");
+		view_->showMessage("\nCurrent board:");
 		view_->printBoard(board_.getBoard(), board_.size());
 		//message of last turn - if was played
 		if (!noMoves) {
@@ -104,6 +104,6 @@ void GameManager::showWinner()
 	}
 	else
 	{
-		view_->showMessage("Tie!! Players have equal scores.");
+		view_->showMessage("Game over! Tie!! Players have equal scores.");
 	}
 }

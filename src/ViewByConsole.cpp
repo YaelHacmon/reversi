@@ -96,7 +96,7 @@ Location ViewByConsole::getMoveFromUser() const
 
 void ViewByConsole::messageWinner(string winPlayer) const
 {
-	cout << winPlayer << " has won the game!" << endl;
+	cout << "Game over! " << winPlayer << " has won the game!" << endl;
 }
 
 
