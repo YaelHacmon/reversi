@@ -5,13 +5,10 @@
 
 #include "../include/Player.h"
 
-Player::Player(const std::string& name, const ColorOfPlayer& c): name_(name), color_(c), score_(2){
-	possibleMoves_ = std::vector<Location>();
-}
+Player::Player(const std::string& name, const ColorOfPlayer& c): name_(name), color_(c), score_(2){}
 
-Player::Player(const Player& other): name_(other.getName()), color_(other.getColor()), score_(other.getScore()), possibleMoves_(other.getPossibleMoves()) {
-	possibleMoves_ = other.getPossibleMoves();
-};
+Player::Player(const Player& other): name_(other.getName()), color_(other.getColor()),
+		score_(other.getScore()), possibleMoves_(other.getPossibleMoves()) {}
 
 //empty destructor
 Player::~Player() {}
