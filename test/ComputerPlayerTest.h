@@ -8,7 +8,9 @@
 #ifndef COMPUTERPLAYERTEST_H_
 #define COMPUTERPLAYERTEST_H_
 #include "../gtest_src/gtest/gtest.h"
-#include "ComputerPlayer.h"
+#include "../include/ComputerPlayer.h"
+#include "../include/ViewByConsole.h"
+#include "../include/StandardMoveLogic.h"
 
 /**
  * Class to test ComputerPlayer. Should test:
