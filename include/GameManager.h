@@ -32,9 +32,14 @@ public:
 	GameManager(ViewGame* view, Board& b, Player* black, Player* white, MoveLogic* log);
 
 	/**
+	 * Virtual destructor.
+	 */
+	virtual ~GameManager();
+
+	/**
 	 * Plays game with the given board, players and logic.
 	 */
-	void playGame();
+	virtual void playGame() = 0;
 
 private:
 	//board of game
@@ -56,7 +61,7 @@ private:
 	 * Returns winner of game.
 	 * @return player who won this game
 	 */
-	void showWinner();
+	virtual void showWinner();
 };
 
 

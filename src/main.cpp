@@ -14,7 +14,6 @@
 
 using namespace std;
 
-
 int main() {
 	//allocate menu, board, logic and view on stack - currently there is only one type of logic and view, no need to allocate dynamically
 	Menu menuReversi;
