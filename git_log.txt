@@ -1,3 +1,21 @@
+commit 2a9f86fc5a574dcb1347abc0a5e31ec059313e70
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Tue Nov 28 22:02:08 2017 +0200
+
+    ALL TESTS WORK, debugged ComputerPlayer - moved return out of loop1
+
+commit 7550e476278f4af6d38dc8b0097138614ea13165
+Author: roni-fultheim <33691066+roni-fultheim@users.noreply.github.com>
+Date:   Tue Nov 28 16:11:58 2017 +0200
+
+    Delete info.txt
+
+commit 013b6831ec10986143dbf85b9bdd01218f4b9004
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Tue Nov 28 15:58:31 2017 +0200
+
+    all tests work, ready for takeoff :)
+
 commit c307bba4d571b05b3c6971a0d624c986bc61ad9b
 Merge: 8d69288 bda24c5
 Author: Yael <yael@yael-VirtualBox.(none)>
