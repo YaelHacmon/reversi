@@ -5,11 +5,9 @@
  *      Author: roni
  */
 
-#include "gtest/gtest.h"
-#include "HumanPlayerTest.h"
-#include "ComputerPlayerTest.h"
+#include "../gtest_src/gtest/gtest.h"
 
 GTEST_API_ int main(int argc, char** argv) {
-	testing::InitGoogleTest(&argc, argv);
-	return RUN_ALL_TESTS();
+  testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
 }
