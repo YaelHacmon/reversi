@@ -9,7 +9,7 @@
 #define HUMANPLAYERTEST_H_
 
 #include "../gtest_src/gtest/gtest.h"
-#include "HumanPlayer.h"
+#include "../include/HumanPlayer.h"
 
 using namespace std;
 
@@ -21,21 +21,22 @@ using namespace std;
  * 			3. acting on original does not change clone
  */
 class HumanPlayerTest: public testing::Test {
-	public:
-		//Default c'tor.
-		HumanPlayerTest(): hp1("X", Board::BLACK), hp2("O",Board::WHITE) {}
+public:
+  //Default c'tor.
+  HumanPlayerTest() :
+      hp1("X", Board::BLACK), hp2("O", Board::WHITE), hp3("O", Board::WHITE), hp1Clone(
+          NULL), hp2Clone(NULL), hp3Clone(NULL) {
+  }
 
-		//sets up the tests
-		virtual void SetUp();
+  //sets up the tests
+  virtual void SetUp();
 
-		//releases the memory used
-		virtual void TearDown();
+  //releases the memory used
+  virtual void TearDown();
 
-	protected:
-		HumanPlayer hp1, hp2, hp3;
-		Player *hp1Clone, *hp2Clone, *hp3Clone;
+protected:
+  HumanPlayer hp1, hp2, hp3;
+  Player *hp1Clone, *hp2Clone, *hp3Clone;
 };
-
-
 
 #endif /* HUMANPLAYERTEST_H_ */
