@@ -25,6 +25,9 @@ TEST(StandardMoveLogic,playMove){
 	st.playMove(Location(2,8),blackPLayer,b,whitePlayer);
 	EXPECT_EQ(Board::BLACK,b.getCell(Location(2,8)));
 	EXPECT_EQ(Board::BLACK,b.getCell(Location(3,7)));
+
+	delete blackPLayer;
+	delete whitePlayer;
 }
 
 TEST(StandardMoveLogic,updateMoveOptions){
@@ -51,6 +54,8 @@ TEST(StandardMoveLogic,updateMoveOptions){
 	EXPECT_EQ(vec[1],Location(3,5));
 	EXPECT_EQ(vec[2],Location(5,3));
 
+	delete blackPlayer;
+	delete whitePlayer;
 }
 
 TEST(StandardMoveLogic,canPlayTurn){
@@ -67,7 +72,9 @@ TEST(StandardMoveLogic,canPlayTurn){
 		}
 	}
 	st.updateMoveOptions(blackPLayer,b);
-	EXPECT_EQ(st.canPlayTurn(blackPLayer),false);	
+	EXPECT_EQ(st.canPlayTurn(blackPLayer),false);
+
+	delete blackPLayer;
 }
 
 
@@ -83,6 +90,8 @@ TEST(StandardMoveLogic,isMoveAllowedAndisPossibleMove){
 
 	EXPECT_EQ(st.isMoveAllowed(Location(3,4),blackPLayer),true);
 	EXPECT_EQ(st.isMoveAllowed(Location(6,7),blackPLayer),false);
+
+	delete blackPLayer;
 }
 
 TEST(StandardMoveLogic,lastInColorRange){
@@ -102,7 +111,7 @@ TEST(StandardMoveLogic,lastInColorRange){
 	b.makeInColor(Board::BLACK,Location(7,4));
 
 	//test for all the diractions
-	
+
 	//left up
 	Location rus = st.lastInColorRange(Board::BLACK,Location(3,4),Location(0,0),b);
 	EXPECT_EQ(rus,Location(3,4));
@@ -114,11 +123,11 @@ TEST(StandardMoveLogic,lastInColorRange){
 	//right up
 	Location rus = st.lastInColorRange(Board::BLACK,Location(3,4),Location(0,7),b);
 	EXPECT_EQ(rus,Location(1,6));
-	
+
 	//right
 	Location rus = st.lastInColorRange(Board::BLACK,Location(3,4),Location(3,7),b);
 	EXPECT_EQ(rus,Location(3,6));
-	
+
 	//right down
 	Location rus = st.lastInColorRange(Board::WHITE,Location(4,4),Location(7,7),b);
 	EXPECT_EQ(rus,Location(5,5));
@@ -126,7 +135,7 @@ TEST(StandardMoveLogic,lastInColorRange){
 	//down
 	Location rus = st.lastInColorRange(Board::WHITE,Location(4,4),Location(7,4),b);
 	EXPECT_EQ(rus,Location(6,4));
-		
+
 	//left down
 	Location rus = st.lastInColorRange(Board::WHITE,Location(4,4),Location(7,0),b);
 	EXPECT_EQ(rus,Location(4,4));
@@ -134,7 +143,9 @@ TEST(StandardMoveLogic,lastInColorRange){
 	//left
 	Location rus = st.lastInColorRange(Board::WHITE,Location(4,4),Location(4,0),b);
 	EXPECT_EQ(rus,Location(4,4));
-		
+
+	delete blackPLayer;
+
 }
 
 

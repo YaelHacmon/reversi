@@ -1,9 +1,9 @@
-/*
- * Roni Fultheim, ID: 313465965
- *
- * main.cpp
- * Implementation of main function - runs program
- */
+///*
+// * Roni Fultheim, ID: 313465965
+// *
+// * main.cpp
+// * Implementation of main function - runs program
+// */
 
 #include <iostream>
 #include "../include/GameManager.h"
@@ -45,6 +45,5 @@ int main() {
 	delete player1;
 	delete player2; //was allocated in menu, but must be released here
 
-	return 0;
+	//	return 0;
 }
-
