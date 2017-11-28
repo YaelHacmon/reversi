@@ -1,9 +1,3 @@
-
-/*
- * Yael Hacmon, ID 313597897
- * Roni Fultheim, ID 313465965
- */
-
 #include "../include/Menu.h"
 #include "../include/HumanPlayer.h"
 #include "../include/ComputerPlayer.h"

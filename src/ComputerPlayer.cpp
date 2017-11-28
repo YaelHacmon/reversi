@@ -1,6 +1,4 @@
 /*
- * Roni Fultheim, ID: 313465965
- * Yael Hacmon, ID: 313297897
  * ComputerPlayer.cpp
  */
 #include <iostream>
@@ -75,10 +73,10 @@ Location ComputerPlayer::getNextMove(const ViewGame* view, const MoveLogic* logi
 				bestMove = *compMove;
 			}
 		}
-
-		//return best move
-		return bestMove;
 	}
+
+	//return best move
+	return bestMove;
 }
 
 Player* ComputerPlayer::clone() const

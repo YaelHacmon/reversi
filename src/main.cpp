@@ -1,9 +1,6 @@
-///*
-// * Roni Fultheim, ID: 313465965
-// *
-// * main.cpp
-// * Implementation of main function - runs program
-// */
+/* main.cpp
+ * Implementation of main function - runs program
+ */
 
 #include <iostream>
 #include "../include/GameManager.h"

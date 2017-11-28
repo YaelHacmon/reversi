@@ -47,8 +47,8 @@ protected:
   ViewByConsole v;
   StandardMoveLogic mvl;
   ComputerPlayer player, opponent;
-  Board firstBoard, betterBoard, leastWorstBoard, winBoard, tieBoard, maxBoard;
-  Location firstMove, betterMove, leastWorstMove, winMove, tieMove, maxMove;
+  Board firstBoard, betterBoard, moveSeriesBoard, winBoard, tieBoard, maxBoard;
+  Location firstMove, betterMove, moveSeriesMove, winMove, tieMove, maxMove;
 
   //sets for check of first move of AI in game, given opponent played (3,4)
   void setFirstBoard();
@@ -59,7 +59,7 @@ protected:
   void setBetterBoard();
 
   //set board so that there is no good moves, but two moves that less bad than other possible moves
-  void setLeastWorstBoard();
+  void setMoveSeriesBoard();
 
   //set board so that there is one winning move and other possible moves that are better scoring
   //black will have no moves when (0,4) will be played, and will continue playing for any other moves

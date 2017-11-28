@@ -1,6 +1,9 @@
 #include "../include/Board.h"
 #include "../gtest_src/gtest/gtest.h"
 
+/** NOTICE - google test compares all LOCATIONS by output, so location to comare must be
+	 less than wanted location by 1 **/
+
 TEST(Board,Board){
 	Board b(5);
 	EXPECT_EQ(5,b.size());

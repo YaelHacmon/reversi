@@ -1,7 +1,3 @@
-/*
- * Yael Hacmon, ID 313597897
- * Roni Fultheim, ID 313465965
- */
 
 #ifndef MENU_H_
 #define MENU_H_

@@ -1,8 +1,3 @@
-/*
- * Yael Hacmon, ID 313597897
- * Roni Fultheim, ID 313465965
- */
-
 #include "../include/ViewByConsole.h"
 #include <iostream>
 #include <string>

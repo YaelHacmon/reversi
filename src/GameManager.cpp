@@ -1,5 +1,4 @@
 /*
- * Roni Fultheim, ID: 313465965
  * GameManager.cpp
  */
 

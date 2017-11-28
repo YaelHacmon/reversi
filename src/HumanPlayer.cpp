@@ -1,6 +1,4 @@
 /*
- * Roni Fultheim, ID: 313465965
- * Yael Hacmon, ID: 313297897
  * HumanPlayer.cpp
  */
 

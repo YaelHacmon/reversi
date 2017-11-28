@@ -1,8 +1,3 @@
-/*
- * Yael Hacmon, ID 313597897
- * Roni Fultheim, ID 313465965
- */
-
 #include "../include/Player.h"
 
 Player::Player(const std::string& name, const ColorOfPlayer& c): name_(name), color_(c), score_(2){}
