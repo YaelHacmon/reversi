@@ -1,0 +1,390 @@
+commit c307bba4d571b05b3c6971a0d624c986bc61ad9b
+Merge: 8d69288 bda24c5
+Author: Yael <yael@yael-VirtualBox.(none)>
+Date:   Tue Nov 28 14:18:14 2017 +0200
+
+    Merge branch 'master' of https://github.com/YaelHacmon/reversi
+
+commit 8d692885f9149803b061e370f087a22d5cdd3bb4
+Author: Yael <yael@yael-VirtualBox.(none)>
+Date:   Tue Nov 28 14:16:01 2017 +0200
+
+    TESTS
+
+commit bda24c5a81293a11ae123270bf44873e58fd9a90
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Tue Nov 28 14:11:38 2017 +0200
+
+    working tests
+
+commit 64096c9497f5187284a7d713985626f519e79811
+Merge: fd43764 8f40494
+Author: Yael <yael@yael-VirtualBox.(none)>
+Date:   Mon Nov 27 21:49:35 2017 +0200
+
+    Merge branch 'master' of https://github.com/YaelHacmon/reversi
+    
+    Conflicts:
+    	src/main.cpp
+
+commit 8f40494634e359335568db117a03fefa7dd19b78
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Mon Nov 27 21:42:50 2017 +0200
+
+    created git_log.txt file with git logs and rezipped project
+
+commit fd4376422bf88a59219e8837bca0552067426abc
+Author: Yael <yael@yael-VirtualBox.(none)>
+Date:   Mon Nov 27 21:42:00 2017 +0200
+
+    deleted old makefile
+
+commit f6c4895013c8f355fc093cee8a2e7f73ad367d1e
+Author: Yael <yael@yael-VirtualBox.(none)>
+Date:   Mon Nov 27 21:40:46 2017 +0200
+
+    TESTS
+
+commit 6b48d4f9d1e6970dc7ae8cf9640834a3dae67e15
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Mon Nov 27 16:53:57 2017 +0200
+
+    last finishes on output
+
+commit e4843748c4318adb7c3be6b5f5ce84cfe4c6ff24
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Mon Nov 27 16:44:56 2017 +0200
+
+    everything works now. prepared for submitting
+
+commit b23f568d257d086d394bc2daa5fe2b2f08e7c864
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Mon Nov 27 12:23:09 2017 +0200
+
+    changed computerPlayer's test to expect single location at all tests
+
+commit f143c424482c918b91c48741e692307fda52a5b9
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Mon Nov 27 10:33:04 2017 +0200
+
+    created test directory
+
+commit a040defcf59c836acf36c7b51249adc9bc23f129
+Merge: 1869f33 c10ef4f
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Mon Nov 27 10:25:35 2017 +0200
+
+    Merge branch 'master' of https://github.com/YaelHacmon/reversi
+    
+    commit message
+
+commit 1869f336326ead99cdb92767069ddd0da38350b6
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Mon Nov 27 10:20:48 2017 +0200
+
+    repushing
+
+commit c10ef4f099cf9c6d6bad92b11e9149fbd6c25b3b
+Merge: b82a568 f122fad
+Author: Yael <yael@yael-VirtualBox.(none)>
+Date:   Mon Nov 27 10:06:04 2017 +0200
+
+    changesMerge branch 'master' of https://github.com/YaelHacmon/reversi
+    
+    Conflicts:
+    	test/gtest_main.cpp
+
+commit b82a5682c3eccb19df7bba5d2db1a413832329c3
+Author: Yael <yael@yael-VirtualBox.(none)>
+Date:   Mon Nov 27 09:47:54 2017 +0200
+
+    TESTS
+
+commit f122fad963eb53cb45309660f726e737081c7603
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Sun Nov 26 22:27:27 2017 +0200
+
+    created tests for HumanPlayer and ComputerPlayer - inside test folder. A test main was also created, Test classes included in main already
+
+commit c2ab4665f6787ec32b5a8f00fde09a891a15177f
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Sun Nov 26 22:20:57 2017 +0200
+
+    created tests for HumanPlayer and ComputerPlayer - inside test folder. A test main was also created, Test classes included in main already
+
+commit 8abdbc563307011d50cd4423d04d51f48bbeb2f8
+Merge: 6f216e1 8caf9f5
+Author: Yael <yael@yael-VirtualBox.(none)>
+Date:   Sun Nov 26 21:39:59 2017 +0200
+
+    Merge branch 'master' of https://github.com/YaelHacmon/reversi
+
+commit 6f216e17d2e2a91abaefce01aa58b6210610eb88
+Author: Yael <yael@yael-VirtualBox.(none)>
+Date:   Sun Nov 26 21:38:23 2017 +0200
+
+    last changes
+
+commit 8caf9f5aafc9c5fc6b97fcf82ed039c4fb1f415b
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Sun Nov 26 20:19:02 2017 +0200
+
+    added returning winning move if the opponent will have no possible moves for a given computer's move, condition is right before inner loop
+
+commit abffab8be7b402fe89ae4be5c4458349718ea1d1
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Sun Nov 26 13:26:33 2017 +0200
+
+    still debugging
+
+commit 014b5c4620976945ce39039306d68eb998ced740
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Sun Nov 26 11:57:58 2017 +0200
+
+    debugging
+
+commit 7ef4b66508a06086cf8d4949d5c7ed8939ce99d3
+Author: Yael <yael@yael-VirtualBox.(none)>
+Date:   Sun Nov 26 10:50:37 2017 +0200
+
+    last modified
+
+commit a0c1d35aa2daf092f7a0e52d8e48d8d022734915
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Fri Nov 24 13:14:32 2017 +0200
+
+    elaborated problem
+
+commit e8efc3af3be0a21440c2f528f89f3ed65db93fbd
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Fri Nov 24 13:12:43 2017 +0200
+
+    working on ComputerPlayer debug - problem with copying vectors in copy c'tors, which causes playGame to do nothing. Second loop is entered due to updateMoveOptions called before loop.
+
+commit 150b7df569dd6ac29427eb6dd5cfbd38bd149ecc
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Fri Nov 24 10:44:52 2017 +0200
+
+    corrected indexes in Menu's choices, now we reached playGame with no bugs
+
+commit eddbca6c3809996df8e44dc65a9f6415099b81c1
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Fri Nov 24 10:41:27 2017 +0200
+
+    fixed ViewByConsole's getMoveByUser() and presentMenu() - wrong condition in input validation: conditions were if NOT not valid input
+
+commit 26b85765eecd31eee05d6ed1f1fa416fdea1d11b
+Author: Yael <yael@yael-VirtualBox.(none)>
+Date:   Fri Nov 24 01:44:49 2017 +0200
+
+    1. push_back to vector
+    2. in for loop on "isMoveAllowed" < and not <=
+    3. input from user and in getMove on ViewByConsole cin.fall and not !cin.fall
+    4. on switch(choice) - case 1,2 and not 0,1
+
+commit f7bc0b76899970e17e5adb184b9337e53f18de45
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Thu Nov 23 21:19:20 2017 +0200
+
+    removed unused function declared in GameManager header file
+
+commit 22217e8df0b6d225c6fd387110471597858c3866
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Thu Nov 23 20:02:11 2017 +0200
+
+    finished debugging all - code compiles now
+
+commit 4cbf7b243df0a410ebf7baafe93139f4a80ce314
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Wed Nov 22 14:33:37 2017 +0200
+
+    debugged all Players, copy c'tors work now
+
+commit cbe9b156c3cde8f7c2261683af3fc6e0f706408c
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Wed Nov 22 13:43:24 2017 +0200
+
+    debugging player, adding allocation of view in main
+
+commit 48d1ddc8e30935f2e203b5da7e920d9ab50918e2
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Wed Nov 22 13:36:43 2017 +0200
+
+    debugging board
+
+commit 22a8dc3a557d5f4353b109432179126a8196973a
+Author: Yael <yael@yael-VirtualBox.(none)>
+Date:   Wed Nov 22 13:21:29 2017 +0200
+
+    a
+
+commit 7fcb4d9630e1ff59c4a225525be74d37afed52e6
+Merge: 5ffd91d 80447e3
+Author: Yael <yael@yael-VirtualBox.(none)>
+Date:   Wed Nov 22 13:13:15 2017 +0200
+
+    Merge branch 'master' of https://github.com/YaelHacmon/reversi
+    
+    Conflicts:
+    	src/main.cpp
+
+commit 5ffd91d848e6d63d88989ebd7601ed262455ff7e
+Author: Yael <yael@yael-VirtualBox.(none)>
+Date:   Wed Nov 22 13:11:30 2017 +0200
+
+    yael
+
+commit 80447e3cd32310c1a492c591f20e0be695989b02
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Wed Nov 22 13:10:28 2017 +0200
+
+    finished going over classes together
+
+commit b9063c3e070ab19474f6d5ca4bf7c45fbff963aa
+Merge: 5e91818 df317c0
+Author: Yael <yael@yael-VirtualBox.(none)>
+Date:   Wed Nov 22 12:54:52 2017 +0200
+
+    Merge branch 'master' of https://github.com/YaelHacmon/reversi
+    
+    Conflicts:
+    	src/main.cpp
+
+commit df317c036cd06ce269df8573170cf06780a94d63
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Wed Nov 22 12:53:50 2017 +0200
+
+    matched declaration of playMove() in all logics
+
+commit 5e9181846dffa2c1f40f0498e95687382990941d
+Author: Yael <yael@yael-VirtualBox.(none)>
+Date:   Wed Nov 22 12:52:11 2017 +0200
+
+    massagePossibleMoves on viewByConsole
+
+commit f21b55f7374b527a92db8f1e36d6d06299863615
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Wed Nov 22 12:19:51 2017 +0200
+
+    gone over ComputerPlayer and GameManager together
+
+commit f88e63543be4ef909df2ba09d69fa90951311e1d
+Merge: 0b72a2b 79eea4a
+Author: Yael <yael@yael-VirtualBox.(none)>
+Date:   Wed Nov 22 11:46:43 2017 +0200
+
+    Merge branch 'master' of https://github.com/YaelHacmon/reversi
+
+commit 0b72a2bc98220b1a10992321aa595ef382bce46b
+Author: Yael <yael@yael-VirtualBox.(none)>
+Date:   Wed Nov 22 11:45:54 2017 +0200
+
+    play move - arguments
+
+commit 79eea4a7ddef986ec8942ebea2c28ba8d37d12f9
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Wed Nov 22 11:19:40 2017 +0200
+
+    Added cstdlib include to StandardMoveLogic for use of abs(), added opening message for game in main + some comments
+
+commit 8d451e2c530853aea6c7129ae7350f945db0200c
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Wed Nov 22 10:58:32 2017 +0200
+
+    Removed 'current player' parameter from getNextMove method, changed to use 'this' instead. Also moved the testing main to a different folder
+
+commit 069324d7c52732ee364c83e1a2da5d4bc7ceeb69
+Merge: 8383a04 fd6b14e
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Wed Nov 22 10:45:59 2017 +0200
+
+    resolved conflicts
+
+commit fd6b14ebd0d526c01ce2aeb602c553e896ed279d
+Author: Yael <yael@yael-VirtualBox.(none)>
+Date:   Wed Nov 22 02:24:41 2017 +0200
+
+    /
+
+commit f4fda67d09d0947428f07afd5531382f77280596
+Merge: 1602deb 9d49827
+Author: Yael <yael@yael-VirtualBox.(none)>
+Date:   Wed Nov 22 00:58:31 2017 +0200
+
+    Merge branch 'master' of https://github.com/YaelHacmon/reversi
+    
+    Conflicts:
+    	include/HumanPlayer.h
+    	include/Player.h
+    	src/HumanPlayer.cpp
+
+commit 1602debeffedc5b1ce6abdaa54e9e7c4eb747d83
+Author: Yael <yael@yael-VirtualBox.(none)>
+Date:   Wed Nov 22 00:47:18 2017 +0200
+
+    1. add computer player
+    2. add clon to player (and derived classes)
+    3. add copy ctor to Board
+    4. update main
+    5. add gtest
+    6. update arguments of function PlayMove
+
+commit 8383a045b3f5870dc0d81a414d9a4cdf11b279ac
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Tue Nov 21 19:10:35 2017 +0200
+
+    added ViewGame class description
+
+commit 9d4982701e3fd0f8e199eb341c748c25fae94a90
+Author: roni-fultheim <33691066+roni-fultheim@users.noreply.github.com>
+Date:   Tue Nov 21 18:58:28 2017 +0200
+
+    implemented Menu and showing via ViewByConsole, changed board to be passed by reference
+    
+    Implemented Menu using ViewGame
+    added tracking of scores (in StandardMoveLogic::playMove)
+    added presentMenu(vector<string>) method to ViewGame
+    implemented presentMenu(vector<string>) in ViewByConsole
+    Changed all Board* to Board& (change followed in all MoveLogics, Players and in GameManager), seeing as board is not a type bit a real instance - and then executed needed changes that follow ('board->' to 'board.', board_ to *board to send board by reference)
+
+commit 16f8c29be2d33296b0b86a33fbcbe82b3c55e912
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Tue Nov 21 18:02:21 2017 +0200
+
+    Implemented Menu using ViewGame, added tracking of scores (in StandardMoveLogic::playMove), added presentMenu(vector<string>) method to ViewGame, implemented presentMenu(vector<string>) in ViewByConsole. Changed all Board* to Board& (change followed in all MoveLogics, Players and in GameManager), seeing as board is not a typy bit a real instance - and then executed needed changes that follow ('board->' to 'board.', board_ to *board to send board by reference)
+
+commit 463458ac7b77f0a81baff1d0617ad7d32c909270
+Author: Yael <yael@yael-VirtualBox.(none)>
+Date:   Mon Nov 20 23:24:22 2017 +0200
+
+    add comments
+
+commit 05e96722d86a5887502ef3f3e52a88f23d1020b7
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Mon Nov 20 21:51:07 2017 +0200
+
+    changed isPossibleMoveByLogic method to accept Location& as constant, to allow use in other constant methods
+
+commit 6f8377bb03a08da03de836317a564f4e06e9a8d0
+Author: roni-fultheim <33691066+roni-fultheim@users.noreply.github.com>
+Date:   Mon Nov 20 21:23:24 2017 +0200
+
+    Earlier version of GameManager - useless
+
+commit b2ac168809b77a25d075e1ad1bc97b93fbbd4a1c
+Author: roni-fultheim <33691066+roni-fultheim@users.noreply.github.com>
+Date:   Mon Nov 20 21:23:10 2017 +0200
+
+    Earlier version of GameManager - useless
+
+commit caf3c1709303511df8f2605d50ae140ece0be7e2
+Author: Roni Fultheim <ronif10@gmai.com>
+Date:   Mon Nov 20 17:49:08 2017 +0200
+
+    finished updating logic of game: MoveLogic and StandardMoveLogic
+
+commit 30c92d3cfe02d59988f84a2e5509807a2270b585
+Author: Yael <yael@yael-VirtualBox.(none)>
+Date:   Mon Nov 20 16:09:27 2017 +0200
+
+    first version

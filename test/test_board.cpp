@@ -61,8 +61,8 @@ TEST(Board,flipColorInRange){
 	b.makeInColor(Board::WHITE, Location(1,1));
 	b.makeInColor(Board::WHITE, Location(1,2));
 	b.makeInColor(Board::WHITE, Location(1,3));
-	b.flipColorInRange(Location(1,1), Location(1,3),1,1);
-	EXPECT_TRUE(b.isCellBlack(Location(1,1)));
+	b.flipColorInRange(Location(1,1), Location(1,3),0,1);
+	EXPECT_FALSE(b.isCellBlack(Location(1,1)));
 	EXPECT_TRUE(b.isCellBlack(Location(1,2)));
 	EXPECT_TRUE(b.isCellBlack(Location(1,3)));
 }
@@ -76,7 +76,7 @@ TEST(Board,isInBoardRange){
 TEST(Board,isEdge){
 	Board b;
 	EXPECT_FALSE(b.isEdge(Location(1,1)));
-	EXPECT_TRUE(b.isEdge(Location(b.size(),b.size())));
+	EXPECT_TRUE(b.isEdge(Location(b.size()-1,b.size()-1)));
 	EXPECT_TRUE(b.isEdge(Location(b.size(),0)));
 	EXPECT_TRUE(b.isEdge(Location(0,b.size())));
 	EXPECT_TRUE(b.isEdge(Location(0,0)));
@@ -85,35 +85,12 @@ TEST(Board,isEdge){
 TEST(Board,isBoardFull){
 	Board b;
 	EXPECT_FALSE(b.isBoardFull());
-	for (int i = 0; i < b.size(); ++i) {
-		for(int j = 0; j < b.size(); ++j){
-			b.makeInColor(Board::WHITE,Location(i,j));
+	for (int i = 0; i < b.size(); i++) {
+		for(int j = 0; j < b.size(); j++){
+			if (b.isCellEmpty(Location(i,j))) {
+				b.makeInColor(Board::WHITE,Location(i,j));
+			}
 		}
 	}
 	EXPECT_TRUE(b.isBoardFull());
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
