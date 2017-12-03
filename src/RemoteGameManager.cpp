@@ -4,10 +4,9 @@
 
 #include "../include/RemoteGameManager.h"
 
+//TODO - an okay number to pass as IP?
 RemoteGameManager::RemoteGameManager(ViewGame* view, Board& b, Player* black,
-		Player* white, MoveLogic* log): GameManager(view, b, black, white, log) {
-	//create client
-}
+		Player* white, MoveLogic* log): GameManager(view, b, black, white, log), client_("127.0.0.1", 8000) {}
 
 /**
  * Plays game, where currPlayer is always the local player, and oppPlayer if the opposite player
@@ -15,27 +14,31 @@ RemoteGameManager::RemoteGameManager(ViewGame* view, Board& b, Player* black,
 //DECLARE GLOBAL VARIABLES for all play...() functions
 //declare flag - in first turn game has not been played, current player has moves
 bool noMoves = false;
-//declare move here - so we can show move later
-Location move(-1,-1);
+
 
 void RemoteGameManager::playGame() {
-	//TODO
 	//ask client to connect with server
-	//read message - if we got "2" - switch players and play remot
-	int color; //TODO
+	try {
+		client_.connectToServer();
+	} catch (const char *msg) {
+		cout << "Failed to connect to server. Reason: " << msg << endl;
+		exit(-1);
+	}
 
+	//read message of the local player's color
+	int color = client_.acceptColor();
+
+	// if we got "2" - switch players to make current player the local one (the white)
+	if (color == 2) {
+		//switch players
+		Player* temp = currPlayer_;
+		currPlayer_ = oppPlayer_;
+		oppPlayer_ = temp;
+	}
 
 	view_->showMessage("Current board:");
 	view_->printBoard(board_.getBoard(), board_.size());
 
-	/* General explanation - First, build a list containing all the
-	 * empty cells on the board. then, checking what might be a possible
-	 * move dor the player, and putting all the options into a vector.
-	 * The user select a point, and the board update acoording to the
-	 *  selected point.
-	 */
-
-	//TODO - ask if we got "2" and local (currPlayer) is the white
 	//if so - play remote's turn
 	if (color == 2) {
 		playRemoteTurn();
@@ -45,6 +48,7 @@ void RemoteGameManager::playGame() {
 	bool continueGame = true;
 
 	//while game is not over - keep playing, local player then remote
+	//TODO - should the isBoard full question be asked after the first (local) turn as well? think so...
 	while (!board_.isBoardFull())
 	{
 		//play local player's turn
@@ -73,8 +77,11 @@ bool RemoteGameManager::playLocalTurn() {
 	//display current turn
 	view_->messageForTurn(currPlayer_->getName());
 
-	//initialize moves for black and white players
+	//initialize moves for local players
 	logic_->updateMoveOptions(currPlayer_, board_);
+
+	//declare move here - so we can show move later
+	Location move(-1,-1);
 
 	//if current player can play his turn
 	if (logic_->canPlayTurn(currPlayer_)) {
@@ -95,7 +102,8 @@ bool RemoteGameManager::playLocalTurn() {
 		//call logic to play move
 		logic_->playMove(move, currPlayer_, board_, oppPlayer_);
 
-		//TODO - send chosen move to server
+		//send chosen move to server
+		client_.sendMove(move);
 
 		//update flag
 		noMoves = false;
@@ -103,11 +111,12 @@ bool RemoteGameManager::playLocalTurn() {
 	//if current player cannot play his turn
 	else
 	{
-		//if the second player cannot play - show message and switch turns
+		//if the second player cannot play - show message and send via server
 		if (!noMoves) {
 			view_->messageSwitchTurns();
 
-			//TODO - send "NoMove" via server
+			//send "NoMove" via server
+			client_.sendNoMove();
 
 			noMoves = true;
 		}
@@ -116,8 +125,9 @@ bool RemoteGameManager::playLocalTurn() {
 			//if both players did not play - game is over, there are no more moves left in game
 			view_->showMessage("No possible moves for both players.");
 
-			//TODO - send "EndGame" via server
-			//sending is only needed when game was over during local turn (if during remote - message will be accepted, not sent)
+			//send "EndGame" via server
+			//sending is only needed when game was over during local turn (if during remote - message will be accepted by server, not sent)
+			client_.sendEndGame();
 
 			//return false - game is over
 			return false;
@@ -138,5 +148,60 @@ bool RemoteGameManager::playLocalTurn() {
 
 
 bool RemoteGameManager::playRemoteTurn() {
+	//display current turn
+	view_->messageForTurn(oppPlayer_->getName());
 
+	//initialize moves for remote player
+	logic_->updateMoveOptions(oppPlayer_, board_);
+
+	//get remote's move via server
+	//if remote has no moves, it will return as (-1,-1)
+	Location move = client_.acceptMove();
+
+	//if remote player can play his turn - move returned is not (-1,-1)
+	if (move != Location(-1, -1)) {
+		//show possible moves
+		view_->messagePossibleMoves(oppPlayer_->getPossibleMoves());
+
+		//move is assumed to be allowed - by instructions TODO -true?
+		//call logic to play move
+		logic_->playMove(move, oppPlayer_, board_, currPlayer_);
+
+		//send chosen move to server
+		client_.sendMove(move);
+
+		//update flag
+		noMoves = false;
+	}
+	//if remote player cannot play his turn
+	else
+	{
+		//if the remote player only player did not play - show message
+		if (!noMoves) {
+			view_->messageSwitchTurns();
+
+			//update flag
+			noMoves = true;
+		}
+		else
+		{
+			//if both players did not play - game is over, there are no more moves left in game
+			view_->showMessage("No possible moves for both players.");
+
+			//no need to send "EndGame" via server - sending is only needed when game was over during local turn
+			//return false - game is over
+			return false;
+		}
+	}
+
+	//show board and last moves
+	view_->showMessage("\nCurrent board:");
+	view_->printBoard(board_.getBoard(), board_.size());
+	//message of last turn - if was played
+	if (!noMoves) {
+		view_->messagePlayerMove(move, currPlayer_->getName());
+	}
+
+	//return true - game continues
+	return true;
 }

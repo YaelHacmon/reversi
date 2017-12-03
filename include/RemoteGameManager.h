@@ -27,7 +27,7 @@ public:
 	virtual void playGame();
 
 private:
-	//TODO Client client_;
+	Client client_;
 
 	/**
 	 * Plays the turn of the local player.
