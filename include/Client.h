@@ -5,6 +5,8 @@
 #ifndef CLIENT_H_
 #define CLIENT_H_
 
+#include "Location.h"
+
 /**
  * Defines a client in a client-server pair, allowing for a remote game vs. a remote human player.
  * Protocol:
@@ -33,11 +35,6 @@ public:
 	 * Sends a message to the server saying player has no moves.
 	 */
 	void sendNoMoves();
-
-	/**
-	 * Sends a message to the server saying player has no moves.
-	 */
-	void sendNoMove();
 
 	/**
 	 * Sends a message to the server saying game has ended (game is over).

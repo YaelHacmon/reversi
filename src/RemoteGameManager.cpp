@@ -3,6 +3,7 @@
  */
 
 #include "../include/RemoteGameManager.h"
+#include <stdlib.h> //for exit(-1)
 
 //TODO - an okay number to pass as IP?
 RemoteGameManager::RemoteGameManager(ViewGame* view, Board& b, Player* black,
@@ -116,7 +117,7 @@ bool RemoteGameManager::playLocalTurn() {
 			view_->messageSwitchTurns();
 
 			//send "NoMove" via server
-			client_.sendNoMove();
+			client_.sendNoMoves();
 
 			noMoves = true;
 		}

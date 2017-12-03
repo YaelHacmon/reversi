@@ -4,6 +4,7 @@
 
 #include "ViewGame.h"
 #include "Player.h"
+#include "GameManager.h"
 #include <vector>
 
 /**

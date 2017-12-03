@@ -6,6 +6,7 @@
 #define REMOTEGAMEMANAGER_H_
 
 #include "GameManager.h"
+#include "Client.h"
 
 /**
  * Manages a game that is played via a server (remotely).

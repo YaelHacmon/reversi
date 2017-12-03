@@ -1,6 +1,8 @@
 #include "../include/Menu.h"
 #include "../include/HumanPlayer.h"
 #include "../include/ComputerPlayer.h"
+#include "../include/LocalGameManager.h"
+#include "../include/RemoteGameManager.h"
 
 using namespace std;
 

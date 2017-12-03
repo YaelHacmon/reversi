@@ -58,13 +58,15 @@ void Client::connectToServer() {
 
 void Client::sendMove(Location move) {
 	//send row of move
-	int n = write(clientSocket, &move.row(), sizeof(move.row()));
+	int row = move.row();
+	int n = write(clientSocket, &row, sizeof(row));
 	if (n == -1) {
 		throw "Error writing row to socket";
 	}
 
 	//send column of move
-	int n = write(clientSocket, &move.column(), sizeof(move.column()));
+	int col = move.column();
+	n = write(clientSocket, &col, sizeof(col));
 	if (n == -1) {
 		throw "Error writing column to socket";
 	}
@@ -118,3 +120,13 @@ Location Client::acceptMove() {
 }
 
 
+int Client::acceptColor() {
+	// Read the integer representing the color of local player (1=black, 2=white) from the server
+	int color;
+	int n = read(clientSocket, &color, sizeof(color));
+	if (n == -1) {
+		throw "Error reading row of move from socket";
+	}
+	//return it
+	return color;
+}

@@ -41,7 +41,7 @@ public:
 	 */
 	virtual void playGame() = 0;
 
-private:
+protected:
 	//board of game
 	Board board_;
 
