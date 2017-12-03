@@ -28,18 +28,23 @@ int main() {
 	//start game - opening message
 	view.showMessage("Welcome to Reversi!");
 
-	//getting white player by user's choice from player options menu
-	Player* player2 = menuReversi.getPlayerByUserChoice(view);
+	//show menu
+	menuReversi.show(view);
 
-	//allocate game manager on stack, sending abstract types by pointer and actual types by reference
-	GameManager game_manger(&view, board, player1, player2, &ml);
+	//getting white player by user's choice from player options menu
+	Player* player2 = menuReversi.getPlayerByUserChoice();
+
+	//allocate game manager dynamically on heap due to using abstract base type
+	//sending abstract types by pointer and actual types by reference
+	GameManager* game_manger = menuReversi.getGameManagerByUserChoice(&view, board, player1, player2, &ml);
 
 	// play game
-	game_manger.playGame();
+	game_manger->playGame();
 
 	//release memory
 	delete player1;
 	delete player2; //was allocated in menu, but must be released here
+	delete game_manger; //was allocated in menu, but must be released here
 
-	//	return 0;
+	return 0;
 }
