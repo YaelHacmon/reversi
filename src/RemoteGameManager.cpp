@@ -26,15 +26,24 @@ void RemoteGameManager::playGame() {
 		exit(-1);
 	}
 
-	//read message of the local player's color
+	view_->showMessage("Connected to server");
+	view_->showMessage("Waiting for other player to join...");
+
+	//read message of the local player's color - waits for connection
 	int color = client_.acceptColor();
 
+	// let player know what color he is
 	// if we got "2" - switch players to make current player the local one (the white)
 	if (color == 2) {
+		//show messsage
+		view_->showMessage("You are the white (O) player");
 		//switch players
 		Player* temp = currPlayer_;
 		currPlayer_ = oppPlayer_;
 		oppPlayer_ = temp;
+	} else {
+		//otherwise - just show message
+		view_->showMessage("You are the black (X) player");
 	}
 
 	view_->showMessage("Current board:");
@@ -49,24 +58,21 @@ void RemoteGameManager::playGame() {
 	bool continueGame = true;
 
 	//while game is not over - keep playing, local player then remote
-	//TODO - should the isBoard full question be asked after the first (local) turn as well? think so...
-	while (!board_.isBoardFull())
+	//TODO - make sure logic works OK - ask Yaeli
+	while (!board_.isBoardFull() && continueGame)
 	{
 		//play local player's turn
 		continueGame = playLocalTurn();
 
 		//if game is over after local turn - break loop
-		if (!continueGame) {
+		if (!continueGame || board_.isBoardFull()) {
 			break;
 		}
 
 		//play remote turn
 		continueGame = playRemoteTurn();
 
-		//if game is over after remote turn - break loop
-		if (!continueGame) {
-			break;
-		}
+		//if game is over after remote turn - loop will be broken at while condition
 	}
 
 	//call show winner

@@ -122,6 +122,7 @@ Location Client::acceptMove() {
 
 int Client::acceptColor() {
 	// Read the integer representing the color of local player (1=black, 2=white) from the server
+	// read waits for message to be sent by the server
 	int color;
 	int n = read(clientSocket, &color, sizeof(color));
 	if (n == -1) {
