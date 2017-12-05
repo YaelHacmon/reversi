@@ -43,7 +43,7 @@ Client::Client(): clientSocket(0) {
 	serverIP = ip.c_str(); //get char pointer array from string
 	serverPort = atoi(port.c_str()); 	//translate port number to integer
 
-	cout << "\tassigned members\n";
+	cout << "\tassigned members: IP " << serverIP << "\tport " << serverPort << std::endl;
 }
 
 void Client::connectToServer() {
