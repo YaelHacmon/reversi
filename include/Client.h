@@ -16,13 +16,15 @@
  */
 class Client {
 public:
-	//TODO - comments
 	/**
-	 * C'tor taking the
-	 * @param
+	 * Default c'tor, in our implementation it will read the server's IP and port from a configuration file and then call
+	 * non-default c'tor
 	 */
-	Client(const char *serverIP, int serverPort);
+	Client();
 
+	/**
+	 * Connects to the server.
+	 */
 	void connectToServer();
 
 	/**

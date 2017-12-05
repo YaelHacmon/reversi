@@ -5,9 +5,8 @@
 #include "../include/RemoteGameManager.h"
 #include <stdlib.h> //for exit(-1)
 
-//TODO - an okay number to pass as IP?
 RemoteGameManager::RemoteGameManager(ViewGame* view, Board& b, Player* black,
-		Player* white, MoveLogic* log): GameManager(view, b, black, white, log), client_("127.0.0.1", 8000) {}
+		Player* white, MoveLogic* log): GameManager(view, b, black, white, log) {}
 
 /**
  * Plays game, where currPlayer is always the local player, and oppPlayer if the opposite player
@@ -131,10 +130,7 @@ bool RemoteGameManager::playLocalTurn() {
 			//if both players did not play - game is over, there are no more moves left in game
 			view_->showMessage("No possible moves for both players.");
 
-			//send "EndGame" via server
-			//sending is only needed when game was over during local turn (if during remote - message will be accepted by server, not sent)
-			client_.sendEndGame();
-
+			//no need to send "EndGame" via server - sending is only needed when game was over during remote turn
 			//return false - game is over
 			return false;
 		}
@@ -191,7 +187,10 @@ bool RemoteGameManager::playRemoteTurn() {
 			//if both players did not play - game is over, there are no more moves left in game
 			view_->showMessage("No possible moves for both players.");
 
-			//no need to send "EndGame" via server - sending is only needed when game was over during local turn
+			//send "EndGame" via server
+			//sending is only needed when game was over during remote turn (if during local - message will be accepted by server, not sent)
+			client_.sendEndGame();
+
 			//return false - game is over
 			return false;
 		}

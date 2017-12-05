@@ -10,16 +10,32 @@
 #include <netdb.h>
 #include <string.h>
 #include <unistd.h>
+#include <fstream>
+#include <stdlib.h> //for exit(1), for atoi()
+
 using namespace std;
 
-//tODO - read IP + port form file
+Client::Client(): clientSocket(0) {
+	string buffer,dummyLine;
+	ifstream config;
+	config.open("../files/config.txt", std::fstream::in);
 
-Client::Client(const char *serverIP, int serverPort):
-		serverIP(serverIP), serverPort(serverPort),
-		clientSocket(0) {
-	cout << "Client" << endl;
+	if (!config) {
+	    cerr << "Unable to open Client configuration file";
+	    exit(1);   // call system to stop
+	}
+
+	//read server IP then server's port from the configuration file
+	string ip, port;
+	config >> ip >> port;
+
+	//close file
+	config.close();
+
+	//assign server port and IP
+	serverIP = ip.c_str(); //get char pointer array from string
+	serverPort = atoi(port.c_str()); 	//translate port number to integer
 }
-
 
 void Client::connectToServer() {
 	// Create a socket point
@@ -27,7 +43,8 @@ void Client::connectToServer() {
 	if (clientSocket == -1) {
 		throw "Error opening socket";
 	}
-	// Convert the ip string to a network address
+
+	// Convert the IP string to a network address
 	struct in_addr address;
 	if (!inet_aton(serverIP, &address)) {
 		throw "Can't parse IP address";
@@ -40,20 +57,20 @@ void Client::connectToServer() {
 	if (server == NULL) {
 		throw "Host is unreachable";
 	}
+
 	// Create a structure for the server address
 	struct sockaddr_in serverAddress;
 	bzero((char *)&address, sizeof(address));
 	serverAddress.sin_family = AF_INET;
-	memcpy((char *)&serverAddress.sin_addr.s_addr, (char
-			*)server->h_addr, server->h_length);
+	memcpy((char *)&serverAddress.sin_addr.s_addr, (char*)server->h_addr, server->h_length);
+
 	// htons converts values between host and network byte orders
 	serverAddress.sin_port = htons(serverPort);
+
 	// Establish a connection with the TCP server
-	if (connect(clientSocket, (struct sockaddr
-			*)&serverAddress, sizeof(serverAddress)) == -1) {
+	if (connect(clientSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) == -1) {
 		throw "Error connecting to server";
 	}
-	cout << "Connected to server" << endl;
 }
 
 
