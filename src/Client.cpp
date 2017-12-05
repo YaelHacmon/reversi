@@ -2,7 +2,7 @@
  * Client.cpp
  */
 
-#include "Client.h"
+#include "../include/Client.h"
 #include <iostream>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -12,6 +12,7 @@
 #include <unistd.h>
 using namespace std;
 
+//tODO - read IP + port form file
 
 Client::Client(const char *serverIP, int serverPort):
 		serverIP(serverIP), serverPort(serverPort),

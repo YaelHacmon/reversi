@@ -16,7 +16,6 @@ RemoteGameManager::RemoteGameManager(ViewGame* view, Board& b, Player* black,
 //declare flag - in first turn game has not been played, current player has moves
 bool noMoves = false;
 
-
 void RemoteGameManager::playGame() {
 	//ask client to connect with server
 	try {
@@ -173,9 +172,6 @@ bool RemoteGameManager::playRemoteTurn() {
 		//move is assumed to be allowed - by instructions TODO -true?
 		//call logic to play move
 		logic_->playMove(move, oppPlayer_, board_, currPlayer_);
-
-		//send chosen move to server
-		client_.sendMove(move);
 
 		//update flag
 		noMoves = false;

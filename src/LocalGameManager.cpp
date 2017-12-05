@@ -8,7 +8,7 @@ LocalGameManager::LocalGameManager(ViewGame* view, Board& b, Player* black,
 		Player* white, MoveLogic* log): GameManager(view, b, black, white, log) {}
 
 
-void GameManager::playGame() {
+void LocalGameManager::playGame() {
 	//declare flag - in first turn game has not been played, current player has moves
 	bool noMoves = false;
 
