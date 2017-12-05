@@ -16,7 +16,8 @@
 using namespace std;
 
 Client::Client(): clientSocket(0) {
-	string buffer,dummyLine;
+	cout << "in client c'tor\n";
+
 	ifstream config;
 	config.open("../files/config.txt", std::fstream::in);
 
@@ -25,30 +26,44 @@ Client::Client(): clientSocket(0) {
 	    exit(1);   // call system to stop
 	}
 
+	cout << "\tfile opened\n";
+
 	//read server IP then server's port from the configuration file
 	string ip, port;
 	config >> ip >> port;
 
+	cout << "\tread ip and port\n";
+
 	//close file
 	config.close();
+
+	cout << "\tfile closed\n";
 
 	//assign server port and IP
 	serverIP = ip.c_str(); //get char pointer array from string
 	serverPort = atoi(port.c_str()); 	//translate port number to integer
+
+	cout << "\tassigned members\n";
 }
 
 void Client::connectToServer() {
+	cout << "connecting to server\n";
+
 	// Create a socket point
 	clientSocket = socket(AF_INET, SOCK_STREAM, 0);
 	if (clientSocket == -1) {
 		throw "Error opening socket";
 	}
 
+	cout << "\tcreated a socket\n";
+
 	// Convert the IP string to a network address
 	struct in_addr address;
 	if (!inet_aton(serverIP, &address)) {
 		throw "Can't parse IP address";
 	}
+
+	cout << "\tConverted the IP string to a network address\n";
 
 	// Get a hostent structure for the given host address
 	struct hostent *server;

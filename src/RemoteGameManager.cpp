@@ -20,7 +20,7 @@ void RemoteGameManager::playGame() {
 	try {
 		client_.connectToServer();
 	} catch (const char *msg) {
-		cout << "Failed to connect to server. Reason: " << msg << endl;
+		std::cout << "Failed to connect to server. Reason: " << msg << std::endl;
 		exit(-1);
 	}
 

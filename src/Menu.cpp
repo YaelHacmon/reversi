@@ -18,7 +18,7 @@ Menu::Menu() {
 
 void Menu::show(ViewGame& view) {
 	//call view to show menu and return player's option
-	int choice = view.presentMenu(playerOptions_);
+	choice_ = view.presentMenu(playerOptions_);
 }
 
 Player* Menu::getPlayerByUserChoice() {
