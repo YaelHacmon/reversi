@@ -198,7 +198,7 @@ bool RemoteGameManager::playRemoteTurn() {
 	view_->printBoard(board_.getBoard(), board_.size());
 	//message of last turn - if was played
 	if (!noMoves) {
-		view_->messagePlayerMove(move, currPlayer_->getName());
+		view_->messagePlayerMove(move, oppPlayer_->getName());
 	}
 
 	//return true - game continues
