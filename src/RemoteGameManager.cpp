@@ -150,11 +150,11 @@ bool RemoteGameManager::playLocalTurn() {
 
 
 bool RemoteGameManager::playRemoteTurn() {
-	//display current turn
-	view_->messageForTurn(oppPlayer_->getName());
-
 	//initialize moves for remote player
 	logic_->updateMoveOptions(oppPlayer_, board_);
+
+	//let local player know that we are waiting for remote to play
+	view_->showMessage("Waiting for other player's move...\n");
 
 	//get remote's move via server
 	//if remote has no moves, it will return as (-1,-1)
@@ -162,10 +162,7 @@ bool RemoteGameManager::playRemoteTurn() {
 
 	//if remote player can play his turn - move returned is not (-1,-1)
 	if (move != Location(-1, -1)) {
-		//show possible moves
-		view_->messagePossibleMoves(oppPlayer_->getPossibleMoves());
-
-		//move is assumed to be allowed - by instructions TODO -true?
+		//move is assumed to be allowed - by instructions
 		//call logic to play move
 		logic_->playMove(move, oppPlayer_, board_, currPlayer_);
 
