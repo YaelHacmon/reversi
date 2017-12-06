@@ -63,15 +63,16 @@ void Client::connectToServer() {
 		throw "Can't parse IP address";
 	}
 
-	cout << "\tConverted the IP string to a network address\n";
+	cout << "\tConverted the IP string to a network address \n";
 
 	// Get a hostent structure for the given host address
 	struct hostent *server;
-	server = gethostbyaddr((const void *)&address, sizeof
-			address, AF_INET);
+	server = gethostbyaddr((const void *)&address, sizeof address, AF_INET);
 	if (server == NULL) {
 		throw "Host is unreachable";
 	}
+
+	cout << "\tfilled host hostent struct\n";
 
 	// Create a structure for the server address
 	struct sockaddr_in serverAddress;
@@ -79,8 +80,12 @@ void Client::connectToServer() {
 	serverAddress.sin_family = AF_INET;
 	memcpy((char *)&serverAddress.sin_addr.s_addr, (char*)server->h_addr, server->h_length);
 
+	cout << "\tfilled sockaddr for server\n";
+
 	// htons converts values between host and network byte orders
 	serverAddress.sin_port = htons(serverPort);
+
+	cout << "\tused htons\n";
 
 	// Establish a connection with the TCP server
 	if (connect(clientSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) == -1) {
