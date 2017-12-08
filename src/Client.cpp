@@ -112,7 +112,6 @@ void Client::sendMove(Location move) {
 
 
 void Client::sendNoMoves() {
-	//TODO - ok this way or should just write (-1) in function?
 	int noMoves = -1;
 	//send (-1), signal of no moves
 	int n = write(clientSocket, &noMoves, sizeof(noMoves));
@@ -123,7 +122,6 @@ void Client::sendNoMoves() {
 
 
 void Client::sendEndGame() {
-	//TODO - ok this way or should just write (-1) in function?
 	int endGame = -2;
 	//send (-2), signal of end of game
 	int n = write(clientSocket, &endGame, sizeof(endGame));
@@ -137,13 +135,22 @@ Location Client::acceptMove() {
 	// Read the row of move from the server
 	int row;
 	int n = read(clientSocket, &row, sizeof(row));
+
 	if (n == -1) {
 		throw "Error reading row of move from socket";
+	} else if (n==0) {
+		//read nothing - other player disconnected
+		return Location(-2, -2);
 	}
 
 	// if other player had no moves - player will send (-1)
 	if (row == -1) {
 		return Location(-1,-1);
+	}
+
+	//if other player has disconnected, server will send (-3)
+	if (row == -3) {
+		return Location(-2, -2);
 	}
 
 	// Read the column of move from the server

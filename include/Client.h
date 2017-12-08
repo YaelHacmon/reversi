@@ -45,7 +45,7 @@ public:
 
 	/**
 	 * Reads the next move of other player from the server.
-	 * @return - location of the next move other player made, (-1,-1) if player had no moves
+	 * @return - location of the next move other player made, (-1,-1) if player had no moves, (-2,-2) if other player disconnected
 	 */
 	Location acceptMove();
 

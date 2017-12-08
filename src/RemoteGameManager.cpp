@@ -164,32 +164,37 @@ bool RemoteGameManager::playRemoteTurn() {
 	//let local player know that we are waiting for remote to play
 	view_->showMessage("Waiting for other player's move...\n");
 
+
 	//get remote's move via server
-	//if remote has no moves, it will return as (-1,-1)
+	//if remote has no moves, it will return as (-1,-1), and if remote disconnected, we will get (-2,-2)
 	Location move = client_.acceptMove();
 
-	//if remote player can play his turn - move returned is not (-1,-1)
-	if (move != Location(-1, -1)) {
+
+	//if other player disconnected - notify and return false
+	if (move == Location(-2, -2)) {
+			view_->showMessage("Other player disconnected, game has ended.\n");
+			//return false - game is over
+			return false;
+	} else if (move != Location(-1, -1)) {
+		//else, if remote player can play his turn - move returned is not (-1,-1)
+
 		//move is assumed to be allowed - by instructions
 		//call logic to play move
 		logic_->playMove(move, oppPlayer_, board_, currPlayer_);
 
 		//update flag
 		noMoves = false;
-	}
-	//if remote player cannot play his turn
-	else
-	{
-		//if the remote player only player did not play - show message
+	} else {
+		//else, remote player cannot play his turn
+
+		//if the only the remote player did not play - show message
 		if (!noMoves) {
 			view_->messageSwitchTurns();
 
 			//update flag
 			noMoves = true;
-		}
-		else
-		{
-			//if both players did not play - game is over, there are no more moves left in game
+		} else {
+			//else, both players did not play - game is over, there are no more moves left in game
 			view_->showMessage("No possible moves for both players.");
 
 			//return false - game is over
@@ -197,10 +202,11 @@ bool RemoteGameManager::playRemoteTurn() {
 		}
 	}
 
-	//show board and last moves
+
+	//show board
 	view_->showMessage("\nCurrent board:");
 	view_->printBoard(board_.getBoard(), board_.size());
-	//message of last turn - if was played
+	//show message of last turn - if was played
 	if (!noMoves) {
 		view_->messagePlayerMove(move, oppPlayer_->getName());
 	}
