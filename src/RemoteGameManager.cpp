@@ -54,16 +54,17 @@ void RemoteGameManager::playGame() {
 
 	//declare flag for keeping track of game over
 	bool continueGame = true;
+	bool local = false; //to know whether server should be notified
 
 	//while game is not over - keep playing, local player then remote
-	//TODO - make sure logic works OK - ask Yaeli
 	while (!board_.isBoardFull() && continueGame)
 	{
 		//play local player's turn
 		continueGame = playLocalTurn();
 
-		//if game is over after local turn - break loop
+		//if game is over after local turn - mark and break loop
 		if (!continueGame || board_.isBoardFull()) {
+			local = true;
 			break;
 		}
 
@@ -71,6 +72,14 @@ void RemoteGameManager::playGame() {
 		continueGame = playRemoteTurn();
 
 		//if game is over after remote turn - loop will be broken at while condition
+	}
+
+	//if game ended at remote turn - server should be notified to release the clients
+	if (!local) {
+		//send "EndGame" via server - sending is only needed when game was over during remote turn
+		//(if during local - message will be accepted by the server from the other player - for him we are the remote)
+		view_->showMessage("notifying server of game's end");
+		client_.sendEndGame();
 	}
 
 	//call show winner
@@ -130,7 +139,6 @@ bool RemoteGameManager::playLocalTurn() {
 			//if both players did not play - game is over, there are no more moves left in game
 			view_->showMessage("No possible moves for both players.");
 
-			//no need to send "EndGame" via server - sending is only needed when game was over during remote turn
 			//return false - game is over
 			return false;
 		}
@@ -183,10 +191,6 @@ bool RemoteGameManager::playRemoteTurn() {
 		{
 			//if both players did not play - game is over, there are no more moves left in game
 			view_->showMessage("No possible moves for both players.");
-
-			//send "EndGame" via server
-			//sending is only needed when game was over during remote turn (if during local - message will be accepted by server, not sent)
-			client_.sendEndGame();
 
 			//return false - game is over
 			return false;
