@@ -13,7 +13,11 @@ void ViewByConsole::printBoard(Board::ElementInBoard** board, int sizeOfBoard) c
 	}
 	cout << endl;
 	// print spaces line
-	cout << "----------------------------------" << endl;
+	for (int i = 0; i < 4*sizeOfBoard+2; i++) {
+		cout << "-";
+	}
+	cout << endl;
+
 	// print the content of the board
 	for(int i=0; i<sizeOfBoard ;++i)
 	{
@@ -38,8 +42,13 @@ void ViewByConsole::printBoard(Board::ElementInBoard** board, int sizeOfBoard) c
 
 		}
 		cout << endl;
+
 		// print spaces line
-		cout << "----------------------------------" << endl;
+		for (int i = 0; i < 4*sizeOfBoard+2; i++) {
+			cout << "-";
+		}
+		cout << endl;
+
 	}
 }
 

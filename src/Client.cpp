@@ -19,7 +19,7 @@ Client::Client(): clientSocket(0) {
 	cout << "in client c'tor\n";
 
 	ifstream config;
-	config.open("../files/config.txt", std::fstream::in);
+	config.open("reversi_config.txt", std::fstream::in);
 
 	if (!config) {
 	    cerr << "Unable to open Client configuration file";
