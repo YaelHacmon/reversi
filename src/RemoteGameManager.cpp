@@ -78,7 +78,6 @@ void RemoteGameManager::playGame() {
 	if (!local) {
 		//send "EndGame" via server - sending is only needed when game was over during remote turn
 		//(if during local - message will be accepted by the server from the other player - for him we are the remote)
-		view_->showMessage("notifying server of game's end");
 		client_.sendEndGame();
 	}
 

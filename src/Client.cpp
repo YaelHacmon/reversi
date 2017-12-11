@@ -16,8 +16,6 @@
 using namespace std;
 
 Client::Client(): clientSocket(0) {
-	cout << "in client c'tor\n";
-
 	ifstream config;
 	config.open("reversi_config.txt", std::fstream::in);
 
@@ -26,44 +24,30 @@ Client::Client(): clientSocket(0) {
 	    exit(1);   // call system to stop
 	}
 
-	cout << "\tfile opened\n";
-
 	//read server IP then server's port from the configuration file
 	string ip, port;
 	config >> ip >> port;
 
-	cout << "\tread ip and port\n";
-
 	//close file
 	config.close();
-
-	cout << "\tfile closed\n";
 
 	//assign server port and IP
 	serverIP = ip.c_str(); //get char pointer array from string
 	serverPort = atoi(port.c_str()); 	//translate port number to integer
-
-	cout << "\tassigned members: IP " << serverIP << "\tport " << serverPort << std::endl;
 }
 
 void Client::connectToServer() {
-	cout << "connecting to server\n";
-
 	// Create a socket point
 	clientSocket = socket(AF_INET, SOCK_STREAM, 0);
 	if (clientSocket == -1) {
 		throw "Error opening socket";
 	}
 
-	cout << "\tcreated a socket\n";
-
 	// Convert the IP string to a network address
 	struct in_addr address;
 	if (!inet_aton(serverIP, &address)) {
 		throw "Can't parse IP address";
 	}
-
-	cout << "\tConverted the IP string to a network address \n";
 
 	// Get a hostent structure for the given host address
 	struct hostent *server;
@@ -72,20 +56,14 @@ void Client::connectToServer() {
 		throw "Host is unreachable";
 	}
 
-	cout << "\tfilled host hostent struct\n";
-
 	// Create a structure for the server address
 	struct sockaddr_in serverAddress;
 	bzero((char *)&address, sizeof(address));
 	serverAddress.sin_family = AF_INET;
 	memcpy((char *)&serverAddress.sin_addr.s_addr, (char*)server->h_addr, server->h_length);
 
-	cout << "\tfilled sockaddr for server\n";
-
 	// htons converts values between host and network byte orders
 	serverAddress.sin_port = htons(serverPort);
-
-	cout << "\tused htons\n";
 
 	// Establish a connection with the TCP server
 	if (connect(clientSocket, (struct sockaddr*)&serverAddress, sizeof(serverAddress)) == -1) {
