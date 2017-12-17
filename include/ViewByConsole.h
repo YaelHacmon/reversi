@@ -43,5 +43,8 @@ public:
 	 * Messages should fit the format: "To MESSAGE, press INDEX"
 	 */
 	virtual int presentMenu(const vector<string>& menuOpps) const;
+
+	//returns the string input from user
+	virtual string& getStringInput() const;
 };
 #endif /* VIEWBYCONSOLE_H_ */

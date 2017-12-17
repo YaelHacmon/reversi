@@ -47,8 +47,14 @@ class ViewGame {
 		 *
 		 * Index 0 should be menu's title, and other indexes should hold the matching message for the option.
 		 * Messages should fit the format: "To MESSAGE, press INDEX"
+		 *
+		 * @param options of menu to be presented
+		 * @return chosen index
 		 */
 		virtual int presentMenu(const vector<string>& menuOpps) const = 0;
+
+		//returns the string input from user
+		virtual string& getStringInput() const = 0;
 };
 
 #endif /* VIEWGAME_H_ */

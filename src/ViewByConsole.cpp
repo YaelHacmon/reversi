@@ -141,8 +141,8 @@ int ViewByConsole::presentMenu(const vector<string>& menuOpps) const
 	cin >> choice;
 
 	// input validation: while the input is not valid- keep asking for valid one
-	//input is not valid if it is either not a number, or is not in range of given options [1-size]
-	while(cin.fail() || choice<1 || choice > menuOpps.size())
+	//input is not valid if it is either not a number, or is not in range of given options [1-size)
+	while(cin.fail() || choice<1 || choice >= menuOpps.size())
 	{
 
 		showMessage("Choice must be a number from given options, please try again:");
@@ -153,4 +153,13 @@ int ViewByConsole::presentMenu(const vector<string>& menuOpps) const
 
 	//translate choice back to c++ indexing and return it
 	return choice;
+}
+
+
+//returns the string input from user
+string& ViewByConsole::getStringInput() const {
+	string input;
+	cin >> input;
+	//no need for string input validation
+	return input;
 }

@@ -43,6 +43,12 @@ private:
 	 * @return true if game continue, false otherwise
 	 */
 	bool playRemoteTurn();
+
+	/**
+	 * Sets up the game - connects client to server,
+	 * asks player to start or join a game, contacts server with request, etc.
+	 */
+	void setup();
 };
 
 

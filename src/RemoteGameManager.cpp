@@ -4,6 +4,9 @@
 
 #include "../include/RemoteGameManager.h"
 #include <stdlib.h> //for exit(-1)
+#include <vector>
+#include <string>
+using namespace std;
 
 RemoteGameManager::RemoteGameManager(ViewGame* view, Board& b, Player* black,
 		Player* white, MoveLogic* log): GameManager(view, b, black, white, log) {}
@@ -16,17 +19,6 @@ RemoteGameManager::RemoteGameManager(ViewGame* view, Board& b, Player* black,
 bool noMoves = false;
 
 void RemoteGameManager::playGame() {
-	//ask client to connect with server
-	try {
-		client_.connectToServer();
-	} catch (const char *msg) {
-		std::cout << "Failed to connect to server. Reason: " << msg << std::endl;
-		exit(-1);
-	}
-
-	view_->showMessage("Connected to server");
-	view_->showMessage("Waiting for other player to join...");
-
 	//read message of the local player's color - waits for connection
 	int color = client_.acceptColor();
 
@@ -212,4 +204,61 @@ bool RemoteGameManager::playRemoteTurn() {
 
 	//return true - game continues
 	return true;
+}
+
+
+void RemoteGameManager::setup() {
+	//ask client to connect with server
+	try {
+		client_.connectToServer();
+	} catch (const char *msg) {
+		std::cout << "Failed to connect to server. Reason: " << msg << std::endl;
+		exit(-1);
+	}
+
+	//notifying of connection
+	view_->showMessage("Connected to server");
+
+	//present remote game options
+	vector<string> ops;
+	ops.push_back("Remote game options:"); //push title
+	ops.push_back("start a new game"); //first option
+	ops.push_back("join an existing game"); //second option
+
+	//get player's choice
+	int choice = view_->presentMenu(ops);
+
+	//if player chose to START A NEW GAME
+	if (choice == 1) {
+		//get new game's name
+		string name = view_->getStringInput();
+
+		//start the game - while name is an existing game name in the server's game list
+		while (client_.startGame(name) == -1) {
+			view_->showMessage("A game with this name already exists. Please choose a different name: ");
+			name = view_->getStringInput();
+		}
+
+		//show waiting message
+		view_->showMessage("Waiting for other player to join...");
+
+	} else {
+		//otherwise, choice is 2 (by presentMenu's definitions)
+		//player chose to JOIN AN EXISTING GAME
+		vector<string> games = client_.listGames();
+
+		//prepare game names to present to user - create MESSAGE: join the game 'NAME'
+		for (int i=0; i < games.size(); i++) {
+			games[i] = "join the game '" + games[i] "'";
+		}
+
+		//add title at index 0
+		games.insert(games.begin(), "Please choose a game to join:");
+
+		//show options to player, and get choice
+		choice = view_->presentMenu(games);
+
+		//join existing game - index of chosen game is one less then choice (index 0 is now the title)
+		client_.joinGame(choice-1);
+	}
 }

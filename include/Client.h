@@ -6,6 +6,7 @@
 #define CLIENT_H_
 
 #include "Location.h"
+#include <string>
 
 /**
  * Defines a client in a client-server pair, allowing for a remote game vs. a remote human player.
@@ -41,7 +42,7 @@ public:
 	/**
 	 * Sends a message to the server saying game has ended (game is over).
 	 */
-	void sendEndGame();
+	void sendEndGame(); //TODO
 
 	/**
 	 * Reads the next move of other player from the server.
@@ -54,6 +55,31 @@ public:
 	 * @return - 1 if local player is black, 2 if local player is white
 	 */
 	int acceptColor();
+
+	/**
+	 * Starts a new game with the given name
+	 * @param name of new game
+	 * @return 0 if succeeded, -1 if a game with given name already exists
+	 */
+	int startGame(const std::string& name); //TODO
+
+	/**
+	 * Returns a list of the existing games from
+	 * @return list of the games with a single waiting player
+	 */
+	std::vector<std::string>& listGames(); //TODO
+
+	/**
+	 * Joins the game at the given index
+	 * @param index of game to join from given games list
+	 */
+	void joinGame(int index); //TODO
+
+	/**
+	 * Closes the game with the given name
+	 * @param name of game to close
+	 */
+	void closeGame(const std::string& name); //TODO
 
 private:
 	const char *serverIP;
