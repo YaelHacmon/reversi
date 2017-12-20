@@ -19,6 +19,9 @@ RemoteGameManager::RemoteGameManager(ViewGame* view, Board& b, Player* black,
 bool noMoves = false;
 
 void RemoteGameManager::playGame() {
+	//setup game (connect to server, choose to start\join a game)
+	setup();
+
 	//read message of the local player's color - waits for connection
 	int color = client_.acceptColor();
 
@@ -249,7 +252,7 @@ void RemoteGameManager::setup() {
 
 		//prepare game names to present to user - create MESSAGE: join the game 'NAME'
 		for (int i=0; i < games.size(); i++) {
-			games[i] = "join the game '" + games[i] "'";
+			games[i] = "join the game '" + games[i] + "'";
 		}
 
 		//add title at index 0
