@@ -73,7 +73,7 @@ void RemoteGameManager::playGame() {
 	if (!local) {
 		//send "EndGame" via server - sending is only needed when game was over during remote turn
 		//(if during local - message will be accepted by the server from the other player - for him we are the remote)
-		client_.sendEndGame();
+		client_.sendEndGame(name_);
 	}
 
 	//call show winner
@@ -234,12 +234,12 @@ void RemoteGameManager::setup() {
 	//if player chose to START A NEW GAME
 	if (choice == 1) {
 		//get new game's name
-		string name = view_->getStringInput();
+		name_ = view_->getStringInput();
 
 		//start the game - while name is an existing game name in the server's game list
-		while (client_.startGame(name) == -1) {
+		while (client_.startGame(name_) == -1) {
 			view_->showMessage("A game with this name already exists. Please choose a different name: ");
-			name = view_->getStringInput();
+			name_ = view_->getStringInput();
 		}
 
 		//show waiting message
@@ -249,19 +249,23 @@ void RemoteGameManager::setup() {
 		//otherwise, choice is 2 (by presentMenu's definitions)
 		//player chose to JOIN AN EXISTING GAME
 		vector<string> games = client_.listGames();
+		vector<string> message = games;
 
 		//prepare game names to present to user - create MESSAGE: join the game 'NAME'
 		for (int i=0; i < games.size(); i++) {
-			games[i] = "join the game '" + games[i] + "'";
+			message[i] = "join the game '" + games[i] + "'";
 		}
 
 		//add title at index 0
-		games.insert(games.begin(), "Please choose a game to join:");
+		games.insert(message.begin(), "Please choose a game to join:");
 
 		//show options to player, and get choice
-		choice = view_->presentMenu(games);
+		choice = view_->presentMenu(message);
 
 		//join existing game - index of chosen game is one less then choice (index 0 is now the title)
-		client_.joinGame(choice-1);
+		client_.joinGame(choice-1); //TODO - what if game cannot be joined?
+
+		//make joined game this game's name
+		name_ = games[choice-1];
 	}
 }

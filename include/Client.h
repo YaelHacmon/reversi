@@ -32,7 +32,7 @@ public:
 	 * Sends last player's move to server.
 	 * @param move - location of last move to send
 	 */
-	void sendMove(Location move);
+	void sendMove(Location& move);
 
 	/**
 	 * Sends a message to the server saying player has no moves.
@@ -40,9 +40,9 @@ public:
 	void sendNoMoves();
 
 	/**
-	 * Sends a message to the server saying game has ended (game is over).
+	 * Sends a message to the server saying given game has ended (game is over).
 	 */
-	void sendEndGame(); //TODO
+	void sendEndGame(std::string& name); //TODO
 
 	/**
 	 * Reads the next move of other player from the server.

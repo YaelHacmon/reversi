@@ -72,7 +72,9 @@ void Client::connectToServer() {
 }
 
 
-void Client::sendMove(Location move) {
+void Client::sendMove(Location& move) {
+	//send command TODO - send string "play", how??
+
 	//send row of move
 	int row = move.row();
 	int n = write(clientSocket, &row, sizeof(row));
@@ -90,6 +92,8 @@ void Client::sendMove(Location move) {
 
 
 void Client::sendNoMoves() {
+	//send command TODO - send string "play", how??
+
 	int noMoves = -1;
 	//send (-1), signal of no moves
 	int n = write(clientSocket, &noMoves, sizeof(noMoves));
@@ -99,7 +103,7 @@ void Client::sendNoMoves() {
 }
 
 
-void Client::sendEndGame() {
+void Client::sendEndGame(string& name) { //TODO - send "close name" to server
 	int endGame = -2;
 	//send (-2), signal of end of game
 	int n = write(clientSocket, &endGame, sizeof(endGame));

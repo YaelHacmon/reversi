@@ -29,6 +29,7 @@ public:
 
 private:
 	Client client_;
+	std::string name_; //name of game
 
 	/**
 	 * Plays the turn of the local player.
