@@ -34,14 +34,14 @@ private:
 	/**
 	 * Plays the turn of the local player.
 	 * Specifically, asks player for move and sends it to the server.
-	 * 	 * @return true if game continue, false otherwise
+	 * 	 * @return true if game continues, false otherwise
 	 */
 	bool playLocalTurn();
 
 	/**
 	 * Plays the turn of the remote player.
 	 * Specifically, gets move from server and plays it on board
-	 * @return true if game continue, false otherwise
+	 * @return true if game continues, false otherwise
 	 */
 	bool playRemoteTurn();
 
@@ -50,6 +50,11 @@ private:
 	 * asks player to start or join a game, contacts server with request, etc.
 	 */
 	void setup();
+
+	/**
+	 * Shows message of end of game to user and waits for any input.
+	 */
+	void serverDisconnected();
 };
 
 

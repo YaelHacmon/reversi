@@ -13,6 +13,11 @@
 #include <fstream>
 #include <stdlib.h> //for exit(1), for atoi()
 
+#define MAX_COMMAND_LENGTH 60
+//set maximal string length (for list_games command) to 1024 bytes (1 kb)
+#define MAX_STRING_LENGTH 1024
+//TODO - is this okay/enough? -> at least 20 games (longest string sent and recieved)
+
 using namespace std;
 
 Client::Client(): clientSocket(0) {
@@ -72,44 +77,61 @@ void Client::connectToServer() {
 }
 
 
-void Client::sendMove(Location& move) {
-	//send command TODO - send string "play", how??
-
-	//send row of move
-	int row = move.row();
-	int n = write(clientSocket, &row, sizeof(row));
-	if (n == -1) {
-		throw "Error writing row to socket";
+int Client::sendMove(Location& move) {
+	//send command - "play", check for error (=0)
+	if (!writeString("play")) {
+		//if server disconnected - return -2
+		return -2;
 	}
 
-	//send column of move
-	int col = move.column();
-	n = write(clientSocket, &col, sizeof(col));
-	if (n == -1) {
-		throw "Error writing column to socket";
+
+	//send row of move - check for error (=0)
+	if (!writeNumber(move.row())) {
+		//if server disconnected - return -2
+		return -2;
 	}
+
+	//send column of move - check for error (=0)
+	if (!writeNumber(move.column())) {
+		//if server disconnected - return -2
+		return -2;
+	}
+
+	//method ended successfully - return 0
+	return 0;
 }
 
 
-void Client::sendNoMoves() {
-	//send command TODO - send string "play", how??
-
-	int noMoves = -1;
-	//send (-1), signal of no moves
-	int n = write(clientSocket, &noMoves, sizeof(noMoves));
-	if (n == -1) {
-		throw "Error writing 'no moves' signal to socket";
+int Client::sendNoMoves() {
+	//send command - "play", check for error (=0)
+	if (!writeString("play")) {
+		//if server disconnected - return -2
+		return -2;
 	}
+
+	//send flag for no moves - (-2), and check for error (=0)
+	if (!writeNumber(-2)) {
+		//if server disconnected - return -2
+		return -2;
+	}
+
+	//method ended successfully - return 0
+	return 0;
 }
 
 
-void Client::sendEndGame(string& name) { //TODO - send "close name" to server
-	int endGame = -2;
-	//send (-2), signal of end of game
-	int n = write(clientSocket, &endGame, sizeof(endGame));
-	if (n == -1) {
-		throw "Error writing 'no moves' signal to socket";
+int Client::sendEndGame(string& name) {
+	//create command, of format "close <name>"
+	string command = "close " + name;
+
+	//send command, check for error (=0)
+	if (!writeString(command)) {
+		//if server disconnected - return -2
+		return -2;
 	}
+
+	//method ended successfully - return 0
+	return 0;
 }
 
 
@@ -121,7 +143,7 @@ Location Client::acceptMove() {
 	if (n == -1) {
 		throw "Error reading row of move from socket";
 	} else if (n==0) {
-		//read nothing - other player disconnected
+		//read nothing - server disconnected - return (-2,-2)
 		return Location(-2, -2);
 	}
 
@@ -132,7 +154,7 @@ Location Client::acceptMove() {
 
 	//if other player has disconnected, server will send (-3)
 	if (row == -3) {
-		return Location(-2, -2);
+		return Location(-3, -3);
 	}
 
 	// Read the column of move from the server
@@ -140,6 +162,9 @@ Location Client::acceptMove() {
 	n = read(clientSocket, &column, sizeof(column));
 	if (n == -1) {
 		throw "Error reading column of move from socket";
+	} else if (n==0) {
+		//read nothing - server disconnected - return (-2,-2)
+		return Location(-2, -2);
 	}
 
 	//return a copy - since allocated on stack
@@ -154,7 +179,48 @@ int Client::acceptColor() {
 	int n = read(clientSocket, &color, sizeof(color));
 	if (n == -1) {
 		throw "Error reading row of move from socket";
+	} else if (n==0) {
+		//if server disconnected - return -2
+		return -2;
 	}
-	//return it
+
+	//else - return color
 	return color;
+}
+
+
+int Client::writeNumber(int number) {
+	//write number to server
+	int n = write(clientSocket, &number, sizeof(number));
+	if (n == -1) {
+		//if an error occurred - throw exception
+		throw "Error writing column to socket";
+	} else if (n==0) {
+		//if server disconnected - return 0
+		return 0;
+	}
+
+	//else - method ended successfully, return 1
+	return 1;
+}
+
+
+int Client::writeString(std::string s) {
+	//TODO - is it right to resize each time?
+	//resize to maximal sent string size
+	s.resize(MAX_COMMAND_LENGTH);
+
+	//write number to opponent
+	int n = write(clientSocket, &s, MAX_STRING_LENGTH);
+	if (n == -1) {
+		//if an error occurred - throw exception
+		throw "Error writing column to socket";
+	} else if (n==0) {
+		//if server disconnected - return 0
+		return 0;
+	}
+
+	//else - method ended successfully, return 1
+	return 1;
+
 }

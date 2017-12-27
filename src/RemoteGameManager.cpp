@@ -25,6 +25,12 @@ void RemoteGameManager::playGame() {
 	//read message of the local player's color - waits for connection
 	int color = client_.acceptColor();
 
+	//if color is -2, server has closed
+	if (color == -2) {
+		//exit - return from method (return void function that handles the situation)
+		return serverDisconnected();
+	}
+
 	// let player know what color he is
 	// if we got "2" - switch players to make current player the local one (the white)
 	if (color == 2) {
@@ -73,7 +79,12 @@ void RemoteGameManager::playGame() {
 	if (!local) {
 		//send "EndGame" via server - sending is only needed when game was over during remote turn
 		//(if during local - message will be accepted by the server from the other player - for him we are the remote)
-		client_.sendEndGame(name_);
+
+		//check for error: if -2 (and not 0) is returned, server has closed
+		if (!client_.sendEndGame(name_)) {
+			//exit - return from method (return void function that handles the situation)
+			return serverDisconnected();
+		}
 	}
 
 	//call show winner
@@ -110,8 +121,14 @@ bool RemoteGameManager::playLocalTurn() {
 		//call logic to play move
 		logic_->playMove(move, currPlayer_, board_, oppPlayer_);
 
-		//send chosen move to server
-		client_.sendMove(move);
+		//send chosen move to server:
+		//check for error: if -2 (and not 0) is returned, server has closed
+		if (!client_.sendMove(move)) {
+			//exit - call void function that handles the situation then return false (notify of end game)
+			serverDisconnected();
+			return false;
+		}
+
 
 		//update flag
 		noMoves = false;
@@ -123,8 +140,14 @@ bool RemoteGameManager::playLocalTurn() {
 		if (!noMoves) {
 			view_->messageSwitchTurns();
 
-			//send "NoMove" via server
-			client_.sendNoMoves();
+			//send "NoMove" via server:
+			//check for error: if -2 (and not 0) is returned, server has closed
+			if (!client_.sendNoMoves()) {
+				//exit - call void function that handles the situation then return false (notify of end game)
+				serverDisconnected();
+				return false;
+			}
+
 
 			noMoves = true;
 		}
@@ -160,18 +183,29 @@ bool RemoteGameManager::playRemoteTurn() {
 
 
 	//get remote's move via server
-	//if remote has no moves, it will return as (-1,-1), and if remote disconnected, we will get (-2,-2)
+	//it will return as (-1,-1) if remote has no moves, (-2,-2) if server disconnected, and (-3,-3) if remote disconnected
 	Location move = client_.acceptMove();
-
 
 	//if other player disconnected - notify and return false
 	if (move == Location(-2, -2)) {
-			view_->showMessage("Other player disconnected, game has ended.\n");
-			//return false - game is over
-			return false;
-	} else if (move != Location(-1, -1)) {
-		//else, if remote player can play his turn - move returned is not (-1,-1)
+		//exit - call void function that handles the situation then return false (notify of end game)
+		serverDisconnected();
+		//return false - game is over
+		return false;
+	}
 
+	//if other player disconnected - notify and return false
+	if (move == Location(-3, -3)) {
+		//show message to player and wait for input (do nothing)
+		view_->showMessage("Other player disconnected. Press any key to end game.");
+		view_->getStringInput();
+		//return false - game is over
+		return false;
+
+	}
+
+	//else, if remote player can play his turn - move returned is not (-1,-1)
+	if (move != Location(-1, -1)) {
 		//move is assumed to be allowed - by instructions
 		//call logic to play move
 		logic_->playMove(move, oppPlayer_, board_, currPlayer_);
@@ -236,12 +270,34 @@ void RemoteGameManager::setup() {
 		//get new game's name
 		name_ = view_->getStringInput();
 
-		//start the game - while name is an existing game name in the server's game list
-		while (client_.startGame(name_) == -1) {
-			view_->showMessage("A game with this name already exists. Please choose a different name: ");
+		//limit game name to 50 chars - as instructed
+		while (name_.length() > 50) {
+			view_->showMessage("Game name must be up to 50 characters. Please choose a different name: ");
 			name_ = view_->getStringInput();
 		}
 
+		//start the game - while name is an existing game name in the server's game list TODO
+		int n;
+		while ((n=client_.startGame(name_)) == -1) {
+			view_->showMessage("A game with this name already exists. Please choose a different name: ");
+			//get new game's name
+			name_ = view_->getStringInput();
+
+			//limit game name to 50 chars - as instructed
+			while (name_.length() > 50) {
+				view_->showMessage("Game name must be up to 50 characters. Please choose a different name: ");
+				name_ = view_->getStringInput();
+			}
+		}
+
+		//check for error: if -2 (and not 0) is returned, server has closed
+		if (!n) {
+			//exit - call void function that handles the situation then return false (notify of end game)
+			return serverDisconnected();
+		}
+
+		//show starting message
+		view_->showMessage("Game has been initialized!");
 		//show waiting message
 		view_->showMessage("Waiting for other player to join...");
 
@@ -249,6 +305,7 @@ void RemoteGameManager::setup() {
 		//otherwise, choice is 2 (by presentMenu's definitions)
 		//player chose to JOIN AN EXISTING GAME
 		vector<string> games = client_.listGames();
+		//TODO - error check
 		vector<string> message = games;
 
 		//prepare game names to present to user - create MESSAGE: join the game 'NAME'
@@ -263,9 +320,21 @@ void RemoteGameManager::setup() {
 		choice = view_->presentMenu(message);
 
 		//join existing game - index of chosen game is one less then choice (index 0 is now the title)
-		client_.joinGame(choice-1); //TODO - what if game cannot be joined?
+		//check for error: if -2 (and not 0) is returned, server has closed
+		if (!client_.joinGame(choice-1)) {
+			//exit - call void function that handles the situation then return false (notify of end game)
+			return serverDisconnected();
+		}
 
 		//make joined game this game's name
 		name_ = games[choice-1];
 	}
+}
+
+
+void RemoteGameManager::serverDisconnected() {
+	//show message of disconnection
+	view_->showMessage("Server has disconnected. Press any key to end game.");
+	//get key - don't use it
+	view_->getStringInput();
 }
