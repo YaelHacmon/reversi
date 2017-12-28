@@ -72,16 +72,17 @@ public:
 
 	/**
 	 * Returns a list of the existing games from
-	 * @return list of the games with a single waiting player, or empty list if server disconnected
+	 * @return list of the games with a single waiting player, a list with the empty string if non exist,
+	 * 				 and an empty list if server disconnected
 	 */
-	std::vector<std::string>& listGames(); //TODO
+	std::vector<std::string>& listGames();
 
 	/**
-	 * Joins the game at the given index
-	 * @param index of game to join from given games list
+	 * Joins the given game
+	 * @param name of game to join from given games list
 	 * @return 0 if succeeded, -2 if server disconnected
 	 */
-	int joinGame(int index); //TODO
+	int joinGame(std::string name);
 
 private:
 	const char *serverIP;

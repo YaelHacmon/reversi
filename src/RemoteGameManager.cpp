@@ -305,29 +305,46 @@ void RemoteGameManager::setup() {
 		//otherwise, choice is 2 (by presentMenu's definitions)
 		//player chose to JOIN AN EXISTING GAME
 		vector<string> games = client_.listGames();
-		//TODO - error check
+
+		//if given vector is empty - server disconnected
+		if (games.empty()) {
+			return serverDisconnected();
+		}
+
+		//if a list with the empty string is returned, there are no waiting games
+		if (games[0] == "") {
+			//show message of disconnection
+			view_->showMessage("There are no existing games to join. Press any key to end game.");
+			//get key - don't use it
+			view_->getStringInput();
+			//return
+			return;
+		}
+
+		//else - show possibilities
 		vector<string> message = games;
 
 		//prepare game names to present to user - create MESSAGE: join the game 'NAME'
+		//menu format is: "to MESSAGE, press INDEX"
 		for (int i=0; i < games.size(); i++) {
 			message[i] = "join the game '" + games[i] + "'";
 		}
 
 		//add title at index 0
-		games.insert(message.begin(), "Please choose a game to join:");
+		message.insert(message.begin(), "Please choose a game to join:");
 
 		//show options to player, and get choice
 		choice = view_->presentMenu(message);
 
-		//join existing game - index of chosen game is one less then choice (index 0 is now the title)
+		//make joined game this game's name -  index of chosen game is one less then choice (index 0 is the title)
+		name_ = games[choice-1];
+
+		//join chosen existing game
 		//check for error: if -2 (and not 0) is returned, server has closed
-		if (!client_.joinGame(choice-1)) {
+		if (!client_.joinGame(name_)) {
 			//exit - call void function that handles the situation then return false (notify of end game)
 			return serverDisconnected();
 		}
-
-		//make joined game this game's name
-		name_ = games[choice-1];
 	}
 }
 

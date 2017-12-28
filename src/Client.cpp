@@ -191,11 +191,6 @@ int Client::acceptColor() {
 }
 
 
-/**
- * Starts a new game with the given name
- * @param name of new game
- * @return 0 if succeeded, -1 if a game with given name already exists, -2 if server disconnected
- */
 int Client::startGame(const std::string& name) {
 	//create command, of format "start <name>"
 	string command = "start " + name;
@@ -209,6 +204,58 @@ int Client::startGame(const std::string& name) {
 	//otherwise - read number from server, protocol: -1 if such a game exists, 0 if initialization was successful
 	//just return read number - 0 for success, (-1) for failure, and method returns (-2) if server disconnected
 	return readNumber();
+}
+
+
+vector<string>& Client::listGames() {
+	//create command, of format "list_games"
+	string command = "list_games";
+
+	//send command, check for error (=0)
+	if (!writeString(command)) {
+		//if server disconnected - return an empty list
+		return vector<string>().clear();
+	}
+
+	//else - read the string with list of waiting games
+	string connectedList;
+	//resize to maximal string length, as set by protocol
+	connectedList.resize(MAX_STRING_LENGTH);
+
+	int n = read(clientSocket, &connectedList, sizeof(connectedList));
+	if (n == -1) {
+		throw "Error reading number from socket";
+	} else if (n==0) {
+		//if server disconnected - return an empty list
+		return vector<string>();
+	}
+
+	//if the empty string was read - return list with the empty string
+	if (connectedList == "") {
+		return vector<string>().push_back("");
+	}
+
+	//otherwise - split the read string
+	istringstream iss(connectedList);
+	vector<string> list((istream_iterator<string>(iss)), istream_iterator<string>());
+
+	//return list
+	return list;
+}
+
+
+int Client::joinGame(string name) {
+	//create command, of format "join <name>"
+	string command = "join " + name;
+
+	//send command, check for error (=0)
+	if (!writeString(command)) {
+		//if server disconnected - return -2
+		return -2;
+	}
+
+	//otherwise - joining was successful, return 0
+	return 0;
 }
 
 
@@ -249,7 +296,7 @@ int Client::writeString(std::string s) {
 	s.resize(MAX_COMMAND_LENGTH);
 
 	//write number to opponent
-	int n = write(clientSocket, &s, MAX_STRING_LENGTH);
+	int n = write(clientSocket, &s, sizeof(s));
 	if (n == -1) {
 		//if an error occurred - throw exception
 		throw "Error writing column to socket";
