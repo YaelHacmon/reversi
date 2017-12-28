@@ -1,12 +1,9 @@
-/*
- * Client.h
- */
-
 #ifndef CLIENT_H_
 #define CLIENT_H_
 
 #include "Location.h"
 #include <string>
+#include <vector>
 
 /**
  * Defines a client in a client-server pair, allowing for a remote game vs. a remote human player.
@@ -75,7 +72,7 @@ public:
 	 * @return list of the games with a single waiting player, a list with the empty string if non exist,
 	 * 				 and an empty list if server disconnected
 	 */
-	std::vector<std::string>& listGames();
+	std::vector<std::string> listGames();
 
 	/**
 	 * Joins the given game

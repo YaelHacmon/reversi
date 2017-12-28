@@ -1,7 +1,3 @@
-/*
- * Client.cpp
- */
-
 #include "../include/Client.h"
 #include <iostream>
 #include <sys/socket.h>
@@ -12,6 +8,8 @@
 #include <unistd.h>
 #include <fstream>
 #include <stdlib.h> //for exit(1), for atoi()
+#include <iterator> //for istream_iterator
+#include <sstream> //for istringstream
 
 #define MAX_COMMAND_LENGTH 60
 //set maximal string length (for list_games command) to 1024 bytes (1 kb)
@@ -207,14 +205,14 @@ int Client::startGame(const std::string& name) {
 }
 
 
-vector<string>& Client::listGames() {
+vector<string> Client::listGames() {
 	//create command, of format "list_games"
 	string command = "list_games";
 
 	//send command, check for error (=0)
 	if (!writeString(command)) {
 		//if server disconnected - return an empty list
-		return vector<string>().clear();
+		return vector<string>();
 	}
 
 	//else - read the string with list of waiting games
@@ -232,7 +230,9 @@ vector<string>& Client::listGames() {
 
 	//if the empty string was read - return list with the empty string
 	if (connectedList == "") {
-		return vector<string>().push_back("");
+		vector<string> vec;
+		vec.push_back("");
+		return vec;
 	}
 
 	//otherwise - split the read string
