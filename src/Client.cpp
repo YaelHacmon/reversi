@@ -25,8 +25,8 @@ Client::Client(): clientSocket(0) {
 	config.open("reversi_config.txt", std::fstream::in);
 
 	if (!config) {
-	    cerr << "Unable to open Client configuration file";
-	    exit(1);   // call system to stop
+		cerr << "Unable to open Client configuration file";
+		exit(1);   // call system to stop
 	}
 
 	//read server IP then server's port from the configuration file
@@ -137,19 +137,16 @@ int Client::sendEndGame(string& name) {
 
 Location Client::acceptMove() {
 	// Read the row of move from the server
-	int row;
-	int n = read(clientSocket, &row, sizeof(row));
-
-	if (n == -1) {
-		throw "Error reading row of move from socket";
-	} else if (n==0) {
-		//read nothing - server disconnected - return (-2,-2)
-		return Location(-2, -2);
-	}
+	int row = readNumber();
 
 	// if other player had no moves - player will send (-1)
 	if (row == -1) {
 		return Location(-1,-1);
+	}
+
+	//if server disconnected, method will return (-2)
+	if (row == -2) {
+		return Location(-2, -2);
 	}
 
 	//if other player has disconnected, server will send (-3)
@@ -157,16 +154,21 @@ Location Client::acceptMove() {
 		return Location(-3, -3);
 	}
 
-	// Read the column of move from the server
-	int column;
-	n = read(clientSocket, &column, sizeof(column));
-	if (n == -1) {
-		throw "Error reading column of move from socket";
-	} else if (n==0) {
-		//read nothing - server disconnected - return (-2,-2)
+
+	// else - Read the column of move from the server
+	int column = readNumber();
+
+	//if server disconnected, method will return (-2)
+	if (row == -2) {
 		return Location(-2, -2);
 	}
 
+	//if other player has disconnected, server will send (-3)
+	if (row == -3) {
+		return Location(-3, -3);
+	}
+
+	//else, return the read location
 	//return a copy - since allocated on stack
 	return Location(row, column);
 }
@@ -186,6 +188,42 @@ int Client::acceptColor() {
 
 	//else - return color
 	return color;
+}
+
+
+/**
+ * Starts a new game with the given name
+ * @param name of new game
+ * @return 0 if succeeded, -1 if a game with given name already exists, -2 if server disconnected
+ */
+int Client::startGame(const std::string& name) {
+	//create command, of format "start <name>"
+	string command = "start " + name;
+
+	//send command, check for error (=0)
+	if (!writeString(command)) {
+		//if server disconnected - return -2
+		return -2;
+	}
+
+	//otherwise - read number from server, protocol: -1 if such a game exists, 0 if initialization was successful
+	//just return read number - 0 for success, (-1) for failure, and method returns (-2) if server disconnected
+	return readNumber();
+}
+
+
+int Client::readNumber() {
+	int num;
+	int n = read(clientSocket, &num, sizeof(num));
+	if (n == -1) {
+		throw "Error reading number from socket";
+	} else if (n==0) {
+		//if server disconnected - return -2
+		return -2;
+	}
+
+	//else - method ended successfully, return read number
+	return num;
 }
 
 

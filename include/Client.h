@@ -68,7 +68,7 @@ public:
 	 * @param name of new game
 	 * @return 0 if succeeded, -1 if a game with given name already exists, -2 if server disconnected
 	 */
-	int startGame(const std::string& name); //TODO
+	int startGame(const std::string& name);
 
 	/**
 	 * Returns a list of the existing games from
@@ -87,6 +87,12 @@ private:
 	const char *serverIP;
 	int serverPort;
 	int clientSocket;
+
+	/**
+	 * Reads a number from server
+	 * @return number read if succeeded, -2 if server disconnected
+	 */
+	int readNumber();
 
 	/**
 	 * Sends the given number to server
