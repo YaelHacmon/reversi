@@ -157,7 +157,7 @@ int ViewByConsole::presentMenu(const vector<string>& menuOpps) const
 
 
 //returns the string input from user
-string& ViewByConsole::getStringInput() const {
+string ViewByConsole::getStringInput() const {
 	string input;
 	cin >> input;
 	//no need for string input validation

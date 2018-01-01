@@ -54,7 +54,7 @@ class ViewGame {
 		virtual int presentMenu(const vector<string>& menuOpps) const = 0;
 
 		//returns the string input from user
-		virtual string& getStringInput() const = 0;
+		virtual string getStringInput() const = 0;
 };
 
 #endif /* VIEWGAME_H_ */

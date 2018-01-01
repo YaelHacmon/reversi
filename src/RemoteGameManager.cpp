@@ -27,6 +27,7 @@ void RemoteGameManager::playGame() {
 
 	//if color is -2, server has closed
 	if (color == -2) {
+		cout << "here\n"; //TODO
 		//exit - return from method (return void function that handles the situation)
 		return serverDisconnected();
 	}
@@ -272,11 +273,15 @@ void RemoteGameManager::setup() {
 		//get new game's name
 		name_ = view_->getStringInput();
 
+		cout << name_ << endl; //TODO
+
 		//limit game name to 50 chars - as instructed
 		while (name_.length() > 50) {
 			view_->showMessage("Game name must be up to 50 characters. Please choose a different name: ");
 			name_ = view_->getStringInput();
 		}
+
+		cout << "after while loop" << endl; //TODO
 
 		//start the game - while name is an existing game name in the server's game list TODO
 		int n;

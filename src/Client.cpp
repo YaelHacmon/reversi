@@ -32,9 +32,11 @@ Client::Client(): clientSocket(0) {
 	config >> ip >> port;
 	//close file
 	config.close();
+	cout << "before c_str: " << ip << endl;
 
 	//assign server port and IP
 	serverIP = ip.c_str(); //get char pointer array from string
+	cout << "after c_str: " << serverIP << endl;
 	serverPort = atoi(port.c_str()); 	//translate port number to integer
 }
 
@@ -44,6 +46,11 @@ void Client::connectToServer() {
 	if (clientSocket == -1) {
 		throw "Error opening socket";
 	}
+
+	cout << "connect to server: " << serverIP << endl;
+	//TODO - for some reason the assignment in c'tor does not work for the server IP
+	string s = "127.0.0.1";
+	serverIP = s.c_str();
 
 	// Convert the IP string to a network address
 	struct in_addr address;
@@ -189,6 +196,8 @@ int Client::acceptColor() {
 
 
 int Client::startGame(const std::string& name) {
+	cout << "in start game\n"; //TODO
+
 	//create command, of format "start <name>"
 	string command = "start " + name;
 
@@ -205,6 +214,8 @@ int Client::startGame(const std::string& name) {
 
 
 vector<string> Client::listGames() {
+	cout << "in list games\n"; //TODO
+
 	//create command, of format "list_games"
 	string command = "list_games";
 
@@ -244,6 +255,8 @@ vector<string> Client::listGames() {
 
 
 int Client::joinGame(string name) {
+	cout << "in join game\n"; //TODO
+
 	//create command, of format "join <name>"
 	string command = "join " + name;
 
