@@ -207,6 +207,8 @@ int Client::startGame(const std::string& name) {
 		return -2;
 	}
 
+	cout << "\tafter write\n"; //TODO
+
 	//otherwise - read number from server, protocol: -1 if such a game exists, 0 if initialization was successful
 	//just return read number - 0 for success, (-1) for failure, and method returns (-2) if server disconnected
 	return readNumber();
@@ -272,6 +274,8 @@ int Client::joinGame(string name) {
 
 
 int Client::readNumber() {
+	cout << "in read number\n"; //TODO
+
 	int num;
 	int n = read(clientSocket, &num, sizeof(num));
 	if (n == -1) {
@@ -281,12 +285,16 @@ int Client::readNumber() {
 		return -2;
 	}
 
+	cout << "\tafter read\n"; //TODO
+
 	//else - method ended successfully, return read number
 	return num;
 }
 
 
 int Client::writeNumber(int number) {
+	cout << "in write number\n"; //TODO
+
 	//write number to server
 	int n = write(clientSocket, &number, sizeof(number));
 	if (n == -1) {
@@ -303,12 +311,20 @@ int Client::writeNumber(int number) {
 
 
 int Client::writeString(std::string s) {
+	cout << "in write string\n"; //TODO
+
 	//TODO - is it right to resize each time?
 	//resize to maximal sent string size
 	s.resize(MAX_COMMAND_LENGTH);
 
+	cout << "\tafter resize\n"; //TODO
+
 	//write number to opponent
 	int n = write(clientSocket, &s, sizeof(s));
+
+	cout << "\tafter write\n"; //TODO
+	cout << n << endl;
+
 	if (n == -1) {
 		//if an error occurred - throw exception
 		throw "Error writing column to socket";
