@@ -82,7 +82,7 @@ public:
 	int joinGame(std::string name);
 
 private:
-	const char *serverIP;
+	std::string serverIP;
 	int serverPort;
 	int clientSocket;
 

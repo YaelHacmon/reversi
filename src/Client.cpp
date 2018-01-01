@@ -35,7 +35,7 @@ Client::Client(): clientSocket(0) {
 	cout << "before c_str: " << ip << endl;
 
 	//assign server port and IP
-	serverIP = ip.c_str(); //get char pointer array from string
+	serverIP = ip; //get char pointer array from string
 	cout << "after c_str: " << serverIP << endl;
 	serverPort = atoi(port.c_str()); 	//translate port number to integer
 }
@@ -54,7 +54,7 @@ void Client::connectToServer() {
 
 	// Convert the IP string to a network address
 	struct in_addr address;
-	if (!inet_aton(serverIP, &address)) {
+	if (!inet_aton(serverIP.c_str(), &address)) {
 		throw "Can't parse IP address";
 	}
 
@@ -319,8 +319,11 @@ int Client::writeString(std::string s) {
 
 	cout << "\tafter resize\n"; //TODO
 
+	char str[MAX_COMMAND_LENGTH];
+	strncpy(str,s.c_str(),MAX_COMMAND_LENGTH);
+
 	//write number to opponent
-	int n = write(clientSocket, &s, sizeof(s));
+	int n = write(clientSocket, str, MAX_COMMAND_LENGTH);
 
 	cout << "\tafter write\n"; //TODO
 	cout << n << endl;
