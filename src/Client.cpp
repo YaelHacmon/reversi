@@ -30,7 +30,6 @@ Client::Client(): clientSocket(0) {
 	//read server IP then server's port from the configuration file
 	string ip, port;
 	config >> ip >> port;
-
 	//close file
 	config.close();
 

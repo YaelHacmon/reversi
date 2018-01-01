@@ -267,6 +267,8 @@ void RemoteGameManager::setup() {
 
 	//if player chose to START A NEW GAME
 	if (choice == 1) {
+		//ask player to enter new game's name
+		view_->showMessage("Please enter name of new game: ");
 		//get new game's name
 		name_ = view_->getStringInput();
 
