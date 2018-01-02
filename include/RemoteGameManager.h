@@ -48,8 +48,9 @@ private:
 	/**
 	 * Sets up the game - connects client to server,
 	 * asks player to start or join a game, contacts server with request, etc.
+	 * @return true if game was set up correctly, false otherwise
 	 */
-	void setup();
+	bool setup();
 
 	/**
 	 * Shows message of end of game to user and waits for any input.

@@ -20,27 +20,33 @@ bool noMoves = false;
 
 void RemoteGameManager::playGame() {
 	//setup game (connect to server, choose to start\join a game)
-	setup();
+	bool flag = setup();
+	//if setup was corrupted
+	if (!flag) {
+		return;
+	}
 
 	//read message of the local player's color - waits for connection
 	int color = client_.acceptColor();
 
 	//if color is -2, server has closed
 	if (color == -2) {
-		cout << "here\n"; //TODO
 		//exit - return from method (return void function that handles the situation)
 		return serverDisconnected();
 	}
 
 	// let player know what color he is
+
 	// if we got "2" - switch players to make current player the local one (the white)
 	if (color == 2) {
-		//show messsage
+		//show message
 		view_->showMessage("You are the white (O) player");
+
 		//switch players
 		Player* temp = currPlayer_;
 		currPlayer_ = oppPlayer_;
 		oppPlayer_ = temp;
+
 	} else {
 		//otherwise - just show message
 		view_->showMessage("You are the black (X) player");
@@ -49,14 +55,16 @@ void RemoteGameManager::playGame() {
 	view_->showMessage("Current board:");
 	view_->printBoard(board_.getBoard(), board_.size());
 
+
 	//if so - play remote's turn
 	if (color == 2) {
 		playRemoteTurn();
 	}
 
-	//declare flag for keeping track of game over
+
+	//declare flag for keeping track of game over (turn-wise)
 	bool continueGame = true;
-	bool local = false; //to know whether server should be notified
+	bool remote = true; //to know whether server should be notified
 
 	//while game is not over - keep playing, local player then remote
 	while (!board_.isBoardFull() && continueGame)
@@ -66,7 +74,8 @@ void RemoteGameManager::playGame() {
 
 		//if game is over after local turn - mark and break loop
 		if (!continueGame || board_.isBoardFull()) {
-			local = true;
+			//game ended at local turn
+			remote = false;
 			break;
 		}
 
@@ -77,14 +86,15 @@ void RemoteGameManager::playGame() {
 	}
 
 	//if game ended at remote turn - server should be notified to release the clients
-	if (!local) {
+	if (remote) {
 		//send "EndGame" via server - sending is only needed when game was over during remote turn
 		//(if during local - message will be accepted by the server from the other player - for him we are the remote)
 
 		//check for error: if -2 (and not 0) is returned, server has closed
-		if (!client_.sendEndGame(name_)) {
-			//exit - return from method (return void function that handles the situation)
-			return serverDisconnected();
+		if (client_.sendEndGame(name_) == -2) {
+			//exit
+			serverDisconnected();
+			return;
 		}
 	}
 
@@ -94,6 +104,8 @@ void RemoteGameManager::playGame() {
 
 
 bool RemoteGameManager::playLocalTurn() {
+	//mark last turn as local turn
+
 	//display current turn
 	view_->messageForTurn(currPlayer_->getName());
 
@@ -124,7 +136,7 @@ bool RemoteGameManager::playLocalTurn() {
 
 		//send chosen move to server:
 		//check for error: if -2 (and not 0) is returned, server has closed
-		if (!client_.sendMove(move)) {
+		if (client_.sendMove(move) == -2) {
 			//exit - call void function that handles the situation then return false (notify of end game)
 			serverDisconnected();
 			return false;
@@ -143,7 +155,7 @@ bool RemoteGameManager::playLocalTurn() {
 
 			//send "NoMove" via server:
 			//check for error: if -2 (and not 0) is returned, server has closed
-			if (!client_.sendNoMoves()) {
+			if (client_.sendNoMoves() == -2) {
 				//exit - call void function that handles the situation then return false (notify of end game)
 				serverDisconnected();
 				return false;
@@ -186,6 +198,7 @@ bool RemoteGameManager::playRemoteTurn() {
 	//get remote's move via server
 	//it will return as (-1,-1) if remote has no moves, (-2,-2) if server disconnected, and (-3,-3) if remote disconnected
 	Location move = client_.acceptMove();
+
 
 	//if other player disconnected - notify and return false
 	if (move == Location(-2, -2)) {
@@ -245,7 +258,7 @@ bool RemoteGameManager::playRemoteTurn() {
 }
 
 
-void RemoteGameManager::setup() {
+bool RemoteGameManager::setup() {
 	//ask client to connect with server
 	try {
 		client_.connectToServer();
@@ -273,17 +286,13 @@ void RemoteGameManager::setup() {
 		//get new game's name
 		name_ = view_->getStringInput();
 
-		cout << name_ << endl; //TODO
-
 		//limit game name to 50 chars - as instructed
 		while (name_.length() > 50) {
 			view_->showMessage("Game name must be up to 50 characters. Please choose a different name: ");
 			name_ = view_->getStringInput();
 		}
 
-		cout << "after while loop" << endl; //TODO
-
-		//start the game - while name is an existing game name in the server's game list TODO
+		//start the game - while name is an existing game name in the server's game list
 		int n;
 		while ((n=client_.startGame(name_)) == -1) {
 			view_->showMessage("A game with this name already exists. Please choose a different name: ");
@@ -298,9 +307,10 @@ void RemoteGameManager::setup() {
 		}
 
 		//check for error: if -2 (and not 0) is returned, server has closed
-		if (!n) {
-			//exit - call void function that handles the situation then return false (notify of end game)
-			return serverDisconnected();
+		if (n == -2) {
+			//exit
+			serverDisconnected();
+			return false;
 		}
 
 		//show starting message
@@ -315,7 +325,9 @@ void RemoteGameManager::setup() {
 
 		//if given vector is empty - server disconnected
 		if (games.empty()) {
-			return serverDisconnected();
+			//exit
+			serverDisconnected();
+			return false;
 		}
 
 		//if a list with the empty string is returned, there are no waiting games
@@ -324,8 +336,8 @@ void RemoteGameManager::setup() {
 			view_->showMessage("There are no existing games to join. Press any key to end game.");
 			//get key - don't use it
 			view_->getStringInput();
-			//return
-			return;
+			//exit
+			return false;
 		}
 
 		//else - show possibilities
@@ -346,13 +358,18 @@ void RemoteGameManager::setup() {
 		//make joined game this game's name -  index of chosen game is one less then choice (index 0 is the title)
 		name_ = games[choice-1];
 
+
 		//join chosen existing game
 		//check for error: if -2 (and not 0) is returned, server has closed
-		if (!client_.joinGame(name_)) {
-			//exit - call void function that handles the situation then return false (notify of end game)
-			return serverDisconnected();
+		if (client_.joinGame(name_) == -2) {
+			//exit
+			serverDisconnected();
+			return false;
 		}
 	}
+
+	//all went well
+	return true;
 }
 
 

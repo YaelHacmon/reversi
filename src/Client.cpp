@@ -32,11 +32,9 @@ Client::Client(): clientSocket(0) {
 	config >> ip >> port;
 	//close file
 	config.close();
-	cout << "before c_str: " << ip << endl;
 
 	//assign server port and IP
 	serverIP = ip; //get char pointer array from string
-	cout << "after c_str: " << serverIP << endl;
 	serverPort = atoi(port.c_str()); 	//translate port number to integer
 }
 
@@ -46,11 +44,6 @@ void Client::connectToServer() {
 	if (clientSocket == -1) {
 		throw "Error opening socket";
 	}
-
-	cout << "connect to server: " << serverIP << endl;
-	//TODO - for some reason the assignment in c'tor does not work for the server IP
-	string s = "127.0.0.1";
-	serverIP = s.c_str();
 
 	// Convert the IP string to a network address
 	struct in_addr address;
@@ -126,7 +119,7 @@ int Client::sendNoMoves() {
 
 int Client::sendEndGame(string& name) {
 	//create command, of format "close <name>"
-	string command = "close " + name;
+	string command = "close " + name + '\0';
 
 	//send command, check for error (=0)
 	if (!writeString(command)) {
@@ -196,10 +189,8 @@ int Client::acceptColor() {
 
 
 int Client::startGame(const std::string& name) {
-	cout << "in start game\n"; //TODO
-
 	//create command, of format "start <name>"
-	string command = "start " + name;
+	string command = "start " + name + '\0';
 
 	//send command, check for error (=0)
 	if (!writeString(command)) {
@@ -207,18 +198,15 @@ int Client::startGame(const std::string& name) {
 		return -2;
 	}
 
-	cout << "\tafter write\n"; //TODO
-
 	//otherwise - read number from server, protocol: -1 if such a game exists, 0 if initialization was successful
 	//just return read number - 0 for success, (-1) for failure, and method returns (-2) if server disconnected
-	return readNumber();
+	int num = readNumber();
+	return num;
 }
 
 
 vector<string> Client::listGames() {
-	cout << "in list games\n"; //TODO
-
-	//create command, of format "list_games"
+		//create command, of format "list_games"
 	string command = "list_games";
 
 	//send command, check for error (=0)
@@ -257,10 +245,16 @@ vector<string> Client::listGames() {
 
 
 int Client::joinGame(string name) {
-	cout << "in join game\n"; //TODO
+	//ask client to reconnect with server (after stopping connection when ending start\list_games commands)
+	try {
+		connectToServer();
+	} catch (const char *msg) {
+		std::cout << "Failed to connect to server. Reason: " << msg << std::endl;
+		exit(-1);
+	}
 
-	//create command, of format "join <name>"
-	string command = "join " + name;
+	//create command, of format "start <name>"
+	string command = "join " + name + '\0';
 
 	//send command, check for error (=0)
 	if (!writeString(command)) {
@@ -274,8 +268,6 @@ int Client::joinGame(string name) {
 
 
 int Client::readNumber() {
-	cout << "in read number\n"; //TODO
-
 	int num;
 	int n = read(clientSocket, &num, sizeof(num));
 	if (n == -1) {
@@ -285,16 +277,12 @@ int Client::readNumber() {
 		return -2;
 	}
 
-	cout << "\tafter read\n"; //TODO
-
 	//else - method ended successfully, return read number
 	return num;
 }
 
 
 int Client::writeNumber(int number) {
-	cout << "in write number\n"; //TODO
-
 	//write number to server
 	int n = write(clientSocket, &number, sizeof(number));
 	if (n == -1) {
@@ -311,18 +299,11 @@ int Client::writeNumber(int number) {
 
 
 int Client::writeString(std::string s) {
-	cout << "in write string\n"; //TODO
-
-	cout << "\tafter resize\n"; //TODO
-
 	char str[MAX_COMMAND_LENGTH];
 	strncpy(str,s.c_str(),MAX_COMMAND_LENGTH);
 
 	//write number to opponent
 	int n = write(clientSocket, str, MAX_COMMAND_LENGTH);
-
-	cout << "\tafter write\n"; //TODO
-	cout << n << endl;
 
 	if (n == -1) {
 		//if an error occurred - throw exception
