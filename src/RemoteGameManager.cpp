@@ -17,6 +17,7 @@ RemoteGameManager::RemoteGameManager(ViewGame* view, Board& b, Player* black,
 //DECLARE GLOBAL VARIABLES for all play...() functions
 //declare flag - in first turn game has not been played, current player has moves
 bool noMoves = false;
+bool serverDisconnect = false;
 
 void RemoteGameManager::playGame() {
 	//setup game (connect to server, choose to start\join a game)
@@ -32,7 +33,8 @@ void RemoteGameManager::playGame() {
 	//if color is -2, server has closed
 	if (color == -2) {
 		//exit - return from method (return void function that handles the situation)
-		return serverDisconnected();
+		serverDisconnected();
+		return;
 	}
 
 	// let player know what color he is
@@ -83,6 +85,11 @@ void RemoteGameManager::playGame() {
 		continueGame = playRemoteTurn();
 
 		//if game is over after remote turn - loop will be broken at while condition
+	}
+
+	//if the server disconnected - return
+	if (serverDisconnect) {
+		return;
 	}
 
 	//if game ended at remote turn - server should be notified to release the clients
@@ -199,7 +206,6 @@ bool RemoteGameManager::playRemoteTurn() {
 	//it will return as (-1,-1) if remote has no moves, (-2,-2) if server disconnected, and (-3,-3) if remote disconnected
 	Location move = client_.acceptMove();
 
-
 	//if other player disconnected - notify and return false
 	if (move == Location(-2, -2)) {
 		//exit - call void function that handles the situation then return false (notify of end game)
@@ -235,6 +241,7 @@ bool RemoteGameManager::playRemoteTurn() {
 
 			//update flag
 			noMoves = true;
+
 		} else {
 			//else, both players did not play - game is over, there are no more moves left in game
 			view_->showMessage("No possible moves for both players.");
@@ -374,6 +381,8 @@ bool RemoteGameManager::setup() {
 
 
 void RemoteGameManager::serverDisconnected() {
+	//mark disconnection
+	serverDisconnect = true;
 	//show message of disconnection
 	view_->showMessage("Server has disconnected. Press any key to end game.");
 	//get key - don't use it

@@ -14,7 +14,6 @@
 #define MAX_COMMAND_LENGTH 60
 //set maximal string length (for list_games command) to 1024 bytes (1 kb)
 #define MAX_STRING_LENGTH 1024
-//TODO - is this okay/enough? -> at least 20 games (longest string sent and recieved)
 
 using namespace std;
 
