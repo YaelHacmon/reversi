@@ -228,11 +228,9 @@ vector<string> Client::listGames() {
 	}
 
 	//else - read the string with list of waiting games
-	string connectedList;
-	//resize to maximal string length, as set by protocol
-	connectedList.resize(MAX_STRING_LENGTH);
+	char connectedList[MAX_STRING_LENGTH];
 
-	int n = read(clientSocket, &connectedList, sizeof(connectedList));
+	int n = read(clientSocket, connectedList, MAX_STRING_LENGTH);
 	if (n == -1) {
 		throw "Error reading number from socket";
 	} else if (n==0) {
@@ -240,15 +238,17 @@ vector<string> Client::listGames() {
 		return vector<string>();
 	}
 
+	string temp(connectedList);
+
 	//if the empty string was read - return list with the empty string
-	if (connectedList == "") {
+	if (temp == "") {
 		vector<string> vec;
 		vec.push_back("");
 		return vec;
 	}
 
 	//otherwise - split the read string
-	istringstream iss(connectedList);
+	istringstream iss(temp);
 	vector<string> list((istream_iterator<string>(iss)), istream_iterator<string>());
 
 	//return list
@@ -312,10 +312,6 @@ int Client::writeNumber(int number) {
 
 int Client::writeString(std::string s) {
 	cout << "in write string\n"; //TODO
-
-	//TODO - is it right to resize each time?
-	//resize to maximal sent string size
-	s.resize(MAX_COMMAND_LENGTH);
 
 	cout << "\tafter resize\n"; //TODO
 
