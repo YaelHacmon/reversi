@@ -58,15 +58,14 @@ void RemoteGameManager::playGame() {
 	view_->printBoard(board_.getBoard(), board_.size());
 
 
-	//if so - play remote's turn
-	if (color == 2) {
-		playRemoteTurn();
-	}
-
-
 	//declare flag for keeping track of game over (turn-wise)
 	bool continueGame = true;
 	bool remote = true; //to know whether server should be notified
+
+	//if so - play remote's turn
+	if (color == 2) {
+		continueGame = playRemoteTurn();
+	}
 
 	//while game is not over - keep playing, local player then remote
 	while (!board_.isBoardFull() && continueGame)
@@ -226,15 +225,16 @@ bool RemoteGameManager::playRemoteTurn() {
 
 	//else, if remote player can play his turn - move returned is not (-1,-1)
 	if (move != Location(-1, -1)) {
+
 		//move is assumed to be allowed - by instructions
 		//call logic to play move
 		logic_->playMove(move, oppPlayer_, board_, currPlayer_);
 
 		//update flag
 		noMoves = false;
+
 	} else {
 		//else, remote player cannot play his turn
-
 		//if the only the remote player did not play - show message
 		if (!noMoves) {
 			view_->messageSwitchTurns();
